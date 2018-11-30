@@ -2,26 +2,27 @@ package com.truekenyan.cocktail.activities
 
 import android.content.Intent
 import android.graphics.Bitmap
-import android.os.AsyncTask
-import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.util.LruCache
+import android.support.v7.app.AppCompatActivity
 import android.util.Log
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
-import com.android.volley.VolleyError
 import com.android.volley.toolbox.ImageLoader
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.gson.Gson
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.models.Ingredient
 import com.truekenyan.cocktail.utils.Commons
 import org.json.JSONObject
 
 class CocktailActivity : AppCompatActivity() {
 
+    private var ingredients = mutableListOf<Ingredient>()
     private var drinkId = 0
     private lateinit var i: Intent
     private lateinit var cockTail: CocktailModel
@@ -49,18 +50,24 @@ class CocktailActivity : AppCompatActivity() {
     }
 
     private var jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
-            Commons.COCKTAIL,
+            Commons.COCKTAIL+drinkId,
             JSONObject(),
             Response.Listener {
                 val drinkObject: JSONObject = (it.getJSONArray("drinks"))[0] as JSONObject
-                val imagePath = drinkObject["strDrinkThumb"] as String
-                val drinkName = drinkObject["strDrink"] as String
-                val method = drinkObject["strInstructions"] as String
-                val isAlcoholic = drinkObject["strAlcoholic"] as String
-                val drinkCategory = drinkObject["strCategory"] as String
-                val glass = drinkObject["strGlass"] as String
-                val ingredients = mutableMapOf<String, String>()
-                cockTail = CocktailModel(drinkId,imagePath, drinkName,method,isAlcoholic,drinkCategory,glass,ingredients)
+                cockTail = Gson().fromJson(drinkObject.toString(),CocktailModel::class.java)
+
+                for (i in 1..15){
+                    val ingredient = drinkObject.get("strIngredient$i") as String?
+                    val measure = drinkObject.get("strMeasure$i") as String?
+
+                    if (!ingredient.isNullOrEmpty()){
+                        if (measure.isNullOrEmpty()){
+                            ingredients.add(Ingredient(ingredient,""))
+                        } else {
+                            ingredients.add(Ingredient(ingredient, measure))
+                        }
+                    }
+                }
             },
             Response.ErrorListener {
                 Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()
