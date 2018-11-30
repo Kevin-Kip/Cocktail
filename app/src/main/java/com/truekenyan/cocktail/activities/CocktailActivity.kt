@@ -5,7 +5,11 @@ import android.graphics.Bitmap
 import android.os.Bundle
 import android.support.v4.util.LruCache
 import android.support.v7.app.AppCompatActivity
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.widget.ImageView
+import android.widget.TextView
 import android.widget.Toast
 import com.android.volley.Request
 import com.android.volley.RequestQueue
@@ -15,6 +19,7 @@ import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.truekenyan.cocktail.R
+import com.truekenyan.cocktail.adapters.IngredientsAdapter
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.models.Ingredient
 import com.truekenyan.cocktail.utils.Commons
@@ -26,6 +31,12 @@ class CocktailActivity : AppCompatActivity() {
     private var drinkId = 0
     private lateinit var i: Intent
     private lateinit var cockTail: CocktailModel
+
+    private lateinit var ingredientsAdapter: IngredientsAdapter
+    private lateinit var cocktailImage: ImageView
+    private lateinit var methodText: TextView
+    private lateinit var ingredientsRecycler: RecyclerView
+
     private val requestQueue: RequestQueue = Volley.newRequestQueue(applicationContext)
     private val imageCache: ImageLoader.ImageCache = object : ImageLoader.ImageCache{
         private val cache: LruCache<String, Bitmap> = LruCache(30)
@@ -43,10 +54,25 @@ class CocktailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_cock_tail)
 
+        initViews()
+
         i = intent
         if (i.hasExtra(Commons.DRINK_ID)){
             drinkId = i.getIntExtra(Commons.DRINK_ID, 0)
         }
+
+        ingredientsAdapter = IngredientsAdapter(applicationContext,ingredients)
+        ingredientsRecycler.apply {
+            adapter = ingredientsAdapter
+            hasFixedSize()
+            itemAnimator = DefaultItemAnimator()
+        }
+    }
+
+    private fun initViews(){
+        cocktailImage = findViewById(R.id.cocktail_image)
+        methodText = findViewById(R.id.method)
+        ingredientsRecycler = findViewById(R.id.ingredients_recycler)
     }
 
     private var jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
@@ -68,6 +94,8 @@ class CocktailActivity : AppCompatActivity() {
                         }
                     }
                 }
+
+                ingredientsAdapter.setIngredients(ingredients)
             },
             Response.ErrorListener {
                 Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()
