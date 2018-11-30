@@ -23,7 +23,7 @@
             </intent-filter>
         </activity>
         <activity android:name=".activities.WelcomeActivity" />
-        <activity android:name=".activities.CockTailActivity" />
+        <activity android:name=".activities.CocktailActivity" />
     </application>
 
 </manifest>

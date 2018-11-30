@@ -2,6 +2,7 @@ package com.truekenyan.cocktail.activities
 
 import android.content.Intent
 import android.graphics.Bitmap
+import android.os.AsyncTask
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.v4.util.LruCache
@@ -19,7 +20,7 @@ import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
 import org.json.JSONObject
 
-class CockTailActivity : AppCompatActivity() {
+class CocktailActivity : AppCompatActivity() {
 
     private var drinkId = 0
     private lateinit var i: Intent
@@ -47,11 +48,19 @@ class CockTailActivity : AppCompatActivity() {
         }
     }
 
-    var jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
+    private var jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
             Commons.COCKTAIL,
             JSONObject(),
             Response.Listener {
-
+                val drinkObject: JSONObject = (it.getJSONArray("drinks"))[0] as JSONObject
+                val imagePath = drinkObject["strDrinkThumb"] as String
+                val drinkName = drinkObject["strDrink"] as String
+                val method = drinkObject["strInstructions"] as String
+                val isAlcoholic = drinkObject["strAlcoholic"] as String
+                val drinkCategory = drinkObject["strCategory"] as String
+                val glass = drinkObject["strGlass"] as String
+                val ingredients = mutableMapOf<String, String>()
+                cockTail = CocktailModel(drinkId,imagePath, drinkName,method,isAlcoholic,drinkCategory,glass,ingredients)
             },
             Response.ErrorListener {
                 Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()

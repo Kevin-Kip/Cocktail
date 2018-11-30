@@ -10,7 +10,7 @@ import android.widget.LinearLayout
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.activities.CockTailActivity
+import com.truekenyan.cocktail.activities.CocktailActivity
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
 
@@ -34,7 +34,7 @@ class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     private fun clickListener(id: Int, context: Context) : View.OnClickListener{
         return View.OnClickListener { _ ->
-            val i = Intent(context, CockTailActivity::class.java).apply {
+            val i = Intent(context, CocktailActivity::class.java).apply {
                 putExtra(Commons.DRINK_ID, id)
             }
 
