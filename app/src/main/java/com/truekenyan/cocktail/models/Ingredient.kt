@@ -1,5 +1,3 @@
 package com.truekenyan.cocktail.models
 
-class Ingredient {
-
-}
+internal class Ingredient(private val ingredient: String, private val measure: String)
