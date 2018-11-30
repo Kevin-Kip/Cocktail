@@ -8,7 +8,7 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.holders.IngredientsViewHolder
 import com.truekenyan.cocktail.models.Ingredient
 
-class IngredientsAdapter(private val context: Context, private val ingredients: ArrayList<Ingredient>)
+class IngredientsAdapter(private val context: Context, private var ingredients: List<Ingredient>)
     : RecyclerView.Adapter<IngredientsViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): IngredientsViewHolder {
@@ -19,4 +19,9 @@ class IngredientsAdapter(private val context: Context, private val ingredients: 
     override fun getItemCount(): Int = ingredients.size
 
     override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) = holder.bind(ingredients[position])
+
+    public fun setIngredients(list: List<Ingredient>){
+        ingredients = list
+        notifyDataSetChanged()
+    }
 }
