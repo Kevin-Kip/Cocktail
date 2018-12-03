@@ -22,22 +22,21 @@ class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
 
     fun bind(cocktail: CocktailModel){
         Picasso.get()
-                .load(cocktail.imagePath)
+                .load(cocktail.strDrinkThumb)
                 .placeholder(R.drawable.placeholder)
                 .into(imageView)
-        cocktailName.text = cocktail.drinkName
-        mainPanel.setOnClickListener(clickListener(cocktail.drinkId, itemView.context))
-        mainParent.setOnClickListener(clickListener(cocktail.drinkId, itemView.context))
-        imageView.setOnClickListener(clickListener(cocktail.drinkId, itemView.context))
-        cocktailName.setOnClickListener(clickListener(cocktail.drinkId, itemView.context))
+        cocktailName.text = cocktail.strDrink
+        mainPanel.setOnClickListener(clickListener(cocktail.idDrink, itemView.context))
+        mainParent.setOnClickListener(clickListener(cocktail.idDrink, itemView.context))
+        imageView.setOnClickListener(clickListener(cocktail.idDrink, itemView.context))
+        cocktailName.setOnClickListener(clickListener(cocktail.idDrink, itemView.context))
     }
 
-    private fun clickListener(id: Int, context: Context) : View.OnClickListener{
+    private fun clickListener(id: String?, context: Context) : View.OnClickListener{
         return View.OnClickListener { _ ->
             val i = Intent(context, CocktailActivity::class.java).apply {
                 putExtra(Commons.DRINK_ID, id)
             }
-
             context.startActivity(i)
         }
     }

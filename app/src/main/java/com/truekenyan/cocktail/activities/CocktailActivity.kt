@@ -28,7 +28,7 @@ import org.json.JSONObject
 class CocktailActivity : AppCompatActivity() {
 
     private var ingredients = mutableListOf<Ingredient>()
-    private var drinkId = 0
+    private var drinkId: String? = null
     private lateinit var i: Intent
     private lateinit var cockTail: CocktailModel
 
@@ -58,7 +58,7 @@ class CocktailActivity : AppCompatActivity() {
 
         i = intent
         if (i.hasExtra(Commons.DRINK_ID)){
-            drinkId = i.getIntExtra(Commons.DRINK_ID, 0)
+            drinkId = i.getStringExtra(Commons.DRINK_ID)
         }
 
         ingredientsAdapter = IngredientsAdapter(applicationContext,ingredients)
