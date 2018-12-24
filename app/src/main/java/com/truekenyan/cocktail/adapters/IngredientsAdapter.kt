@@ -18,9 +18,11 @@ class IngredientsAdapter(private val context: Context, private var ingredients: 
 
     override fun getItemCount(): Int = ingredients.size
 
-    override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) = holder.bind(ingredients[position])
+    override fun onBindViewHolder(holder: IngredientsViewHolder, position: Int) {
+        holder.bind(ingredients[position])
+    }
 
-    public fun setIngredients(list: List<Ingredient>){
+    fun setIngredients(list: List<Ingredient>){
         ingredients = list
         notifyDataSetChanged()
     }
