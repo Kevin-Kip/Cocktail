@@ -61,7 +61,6 @@
                 android:padding="@dimen/dimen_3dp"
                 android:id="@+id/ingredients_title"
                 android:text="@string/ingredients"
-                android:textColor="@android:color/black"
                 android:textStyle="bold"
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -82,7 +81,6 @@
                 android:padding="@dimen/dimen_3dp"
                 android:layout_marginTop="@dimen/dimen_3dp"
                 android:id="@+id/method_title"
-                android:textColor="@android:color/black"
                 android:text="@string/method"
                 android:textStyle="bold"
                 app:layout_constraintStart_toStartOf="parent"
@@ -90,12 +88,32 @@
                 app:layout_constraintBottom_toTopOf="@id/method"/>
 
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_3dp"
                 android:id="@+id/method"
                 app:layout_constraintTop_toBottomOf="@id/method_title"
                 app:layout_constraintStart_toStartOf="@id/method_title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintBottom_toBottomOf="parent"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_3dp"
+                android:id="@+id/more_title"
+                android:text="@string/more_text"
+                android:textStyle="bold"
+                app:layout_constraintTop_toBottomOf="@id/method"
+                app:layout_constraintStart_toStartOf="@id/method"
+                app:layout_constraintEnd_toEndOf="@id/method"/>
+
+            <android.support.v7.widget.RecyclerView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:id="@+id/more_list"
+                app:layout_constraintTop_toBottomOf="@id/more_title"
+                app:layout_constraintStart_toStartOf="@id/more_title"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintBottom_toBottomOf="parent"/>
 
