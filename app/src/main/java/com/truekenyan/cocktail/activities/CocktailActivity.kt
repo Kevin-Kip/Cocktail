@@ -54,7 +54,6 @@ class CocktailActivity : AppCompatActivity() {
         i = intent
         drinkId = (i.getStringExtra(Commons.DRINK_ID)).toInt()
         val fullURL: String = Commons.COCKTAIL + drinkId
-        Toast.makeText(applicationContext, "URL is $fullURL", Toast.LENGTH_LONG).show()
 
         requestQueue = Volley.newRequestQueue(this@CocktailActivity)
         getDetails(fullURL)
@@ -105,7 +104,10 @@ class CocktailActivity : AppCompatActivity() {
 
                     method.text = (cockTail.strInstructions)!!.replace(". ", ".\n")
                     ingredientsAdapter.setIngredients(ingredients)
-                    Picasso.get().load(cockTail.strDrinkThumb).into(cocktail_image)
+                    Picasso.get()
+                            .load(cockTail.strDrinkThumb)
+                            .placeholder(R.drawable.placeholder)
+                            .into(cocktail_image)
                     collapsing_toolbar.title = cockTail.strDrink
                 },
                 Response.ErrorListener {
