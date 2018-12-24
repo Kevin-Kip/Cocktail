@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     android:orientation="horizontal"
     android:padding="@dimen/dimen_3dp">
@@ -11,6 +11,8 @@
         android:layout_height="wrap_content"
         android:id="@+id/ingredient"
         tools:text="Salt"
+        android:layout_gravity="center_vertical"
+        android:textColor="@android:color/darker_gray"
         android:layout_margin="@dimen/dimen_3dp"
         android:drawableStart="@drawable/ic_success"
         android:drawableLeft="@drawable/ic_success"

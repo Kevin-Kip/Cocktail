@@ -11,8 +11,7 @@
         app:cardCornerRadius="1dp"
         app:cardElevation="1dp"
         android:padding="@dimen/dimen_3dp"
-        android:id="@+id/main_parent"
-        app:layout_constraintDimensionRatio="H, 1:1">
+        android:id="@+id/main_parent">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -25,7 +24,7 @@
                 android:layout_height="120dp"
                 android:id="@+id/cocktail_image"
                 android:contentDescription="@string/app_name"
-                app:srcCompat="@drawable/ic_launcher_background"/>
+                android:src="@drawable/ic_launcher_background"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

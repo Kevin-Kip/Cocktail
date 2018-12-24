@@ -4,6 +4,7 @@ object Commons {
     const val FIRST_TIME_LAUNCH = "cocktail-first-time-launch"
     const val HAS_LAUNCHED = "has-launched"
     const val DRINK_ID = "drink-id"
+    const val DRINKS = "drinks"
     const val URL_ALCOHOLIC = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Alcoholic"
     const val URL_NON_ALCOHOLIC = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?a=Non_Alcoholic"
     const val SEARCH_URL = "https://www.thecocktaildb.com/api/json/v1/1/filter.php?i="
