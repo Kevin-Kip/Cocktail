@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/options_filter"
+        android:title="@string/filter_text"
+        android:icon="@drawable/ic_filter"
+        app:showAsAction="ifRoom"
+        android:visible="true"/>
+</menu>
