@@ -6,4 +6,7 @@
     <string name="title_notifications">Notifications</string>
     <string name="search">Search</string>
     <string name="ingredients">Ingredients</string>
+    <string name="method">Method</string>
+    <string name="favorites">Favorites</string>
+    <string name="filter_text">Filter</string>
 </resources>
