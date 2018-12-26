@@ -64,6 +64,7 @@ class FragmentSearch : Fragment() {
 
         searchButton!!.setOnClickListener {
             keyWord = searchInput!!.text.trim().toString()
+            keyWord = keyWord!!.replace(" ", "_")
             searchButton!!.isEnabled = false
             progressBar!!.visibility = View.VISIBLE
             fetchDrinks(Commons.SEARCH_URL + keyWord)
