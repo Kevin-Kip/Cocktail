@@ -15,4 +15,5 @@ object Commons {
     const val COCKTAILS = "Cocktails"
     const val SEARCH = "Search"
     const val FAVORITES = "Favorites"
+    const val INFO = "Info"
 }

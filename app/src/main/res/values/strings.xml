@@ -13,4 +13,9 @@
     <string name="favorite">Favorite</string>
     <string name="search_hint">Search Ingredient Name ...</string>
     <string name="no_results">No results ...</string>
+    <string name="info">Info</string>
+    <string name="about">About</string>
+    <string name="long_about">This is an app for Cocktail lovers. It utilizes thecocktaildb.com API</string>
+    <string name="contact_developer">Contact Developer</string>
+    <string name="share">Share</string>
 </resources>

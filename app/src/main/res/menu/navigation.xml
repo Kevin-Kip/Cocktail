@@ -17,6 +17,11 @@
             android:id="@+id/navigation_favorites"
             android:icon="@drawable/ic_favorite"
             android:title="@string/favorites" />
+
+        <item
+            android:id="@+id/navigation_info"
+            android:icon="@drawable/ic_info"
+            android:title="@string/info"/>
     </group>
 
 </menu>
