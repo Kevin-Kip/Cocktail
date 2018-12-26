@@ -19,12 +19,10 @@ class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private val cocktailName = itemView.findViewById<TextView>(R.id.cocktail_name)
     private val mainPanel = itemView.findViewById<ConstraintLayout>(R.id.parentPanel)
     private val mainParent = itemView.findViewById<CardView>(R.id.main_parent)
-    private var isMain: Boolean? = null
 
     fun bind(cocktail: CocktailModel, cocktails: List<CocktailModel>, main: Boolean?){
-        isMain = main
         when {
-            isMain!! -> {
+            main!! -> {
                 Picasso.get()
                         .load(cocktail.strDrinkThumb)
                         .fit()
