@@ -20,18 +20,18 @@ data class CocktailModel(var idDrink: String?,
             parcel.readString(),
             parcel.readString())
 
-    override fun writeToParcel(dest: Parcel?, flags: Int) {
-        dest!!.writeString(idDrink)
-        dest.writeString(strDrinkThumb)
-        dest.writeString(strDrink)
-        dest.writeString(strInstructions)
-        dest.writeString(strAlcoholic)
-        dest.writeString(strCategory)
-        dest.writeString(strGlass)
+    override fun writeToParcel(parcel: Parcel, flags: Int) {
+        parcel.writeString(idDrink)
+        parcel.writeString(strDrinkThumb)
+        parcel.writeString(strDrink)
+        parcel.writeString(strInstructions)
+        parcel.writeString(strAlcoholic)
+        parcel.writeString(strCategory)
+        parcel.writeString(strGlass)
     }
 
     override fun describeContents(): Int {
-        return Parcelable.CONTENTS_FILE_DESCRIPTOR
+        return 0
     }
 
     companion object CREATOR : Parcelable.Creator<CocktailModel> {
