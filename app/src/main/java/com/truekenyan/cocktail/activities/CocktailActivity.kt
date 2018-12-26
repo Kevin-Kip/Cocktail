@@ -8,8 +8,6 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -43,6 +41,8 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var ingredientsRecycler: RecyclerView
     private lateinit var moreRecyclerView: RecyclerView
     private var requestQueue: RequestQueue? = null
+    private var favoriteImage: ImageView? = null
+    private var favorites = mutableListOf<String>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -73,6 +73,10 @@ class CocktailActivity : AppCompatActivity() {
             itemAnimator = DefaultItemAnimator()
             layoutManager = GridLayoutManager(context,1, GridLayoutManager.HORIZONTAL, false)
         }
+
+        favoriteImage!!.setOnClickListener {
+
+        }
     }
 
     private fun initViews(){
@@ -80,6 +84,7 @@ class CocktailActivity : AppCompatActivity() {
         methodText = findViewById(R.id.method)
         ingredientsRecycler = findViewById(R.id.ingredients_recycler)
         moreRecyclerView = findViewById(R.id.more_list)
+        favoriteImage = findViewById(R.id.favorite)
     }
 
     private fun getDetails(url: String) {
@@ -111,6 +116,12 @@ class CocktailActivity : AppCompatActivity() {
                             .into(cocktail_image)
                     collapsing_toolbar.title = cockTail.strDrink
                     tag.text = cockTail.strAlcoholic
+                    for (i in favorites){
+                        if (i.equals(cockTail.idDrink)){
+                            favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
+                            break
+                        }
+                    }
                     getMore(drinkId.toString(), i.getParcelableArrayListExtra(Commons.COCKTAILS))
                 },
                 Response.ErrorListener {
@@ -130,17 +141,5 @@ class CocktailActivity : AppCompatActivity() {
             }
         }
         cocktailAdapter.setItems(newList)
-    }
-
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.cock_tail_options, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        if(item!!.itemId == R.id.options_favorite){
-
-        }
-        return super.onOptionsItemSelected(item)
     }
 }
