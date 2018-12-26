@@ -72,6 +72,19 @@
                 android:paddingEnd="@dimen/dimen_10dp"
                 android:layout_margin="@dimen/dimen_5dp"/>
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="@dimen/dimen_10dp"
+                app:layout_constraintTop_toTopOf="@id/tag"
+                app:layout_constraintBottom_toBottomOf="@id/tag"
+                app:layout_constraintEnd_toEndOf="parent"
+                android:layout_margin="@dimen/dimen_10dp"
+                android:contentDescription="@string/app_name"
+                android:id="@+id/favorite"
+                android:src="@drawable/ic_favorite"
+                android:background="?attr/selectableItemBackground"/>
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
