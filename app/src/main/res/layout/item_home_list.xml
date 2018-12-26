@@ -6,7 +6,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     app:cardBackgroundColor="#f7f7f7"
     app:cardCornerRadius="@dimen/dimen_1dp"
-    app:cardElevation="@dimen/dimen_3dp"
+    app:cardElevation="@dimen/dimen_1dp"
     android:padding="@dimen/dimen_3dp"
     android:layout_margin="@dimen/dimen_3dp"
     android:id="@+id/main_parent">
