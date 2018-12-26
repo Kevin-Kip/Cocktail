@@ -2,6 +2,8 @@ package com.truekenyan.cocktail.fragments
 
 import android.os.Bundle
 import android.support.v4.app.Fragment
+import android.support.v7.widget.DefaultItemAnimator
+import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
@@ -9,7 +11,10 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.*
+import android.widget.EditText
+import android.widget.ImageButton
+import android.widget.ProgressBar
+import android.widget.TextView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -50,11 +55,22 @@ class FragmentSearch : Fragment() {
         requestQueue = Volley.newRequestQueue(context)
         searchInput!!.addTextChangedListener(searchListener)
 
+        searchList!!.apply {
+            adapter = cocktailAdapter
+            hasFixedSize()
+            layoutManager = GridLayoutManager(context, 2)
+            itemAnimator = DefaultItemAnimator()
+        }
+
         searchButton!!.setOnClickListener {
             keyWord = searchInput!!.text.trim().toString()
             searchButton!!.isEnabled = false
             progressBar!!.visibility = View.VISIBLE
             fetchDrinks(Commons.SEARCH_URL + keyWord)
+        }
+
+        clearButton!!.setOnClickListener {
+            searchInput!!.text.clear()
         }
 
         return rootView
@@ -88,26 +104,34 @@ class FragmentSearch : Fragment() {
                 JSONObject(),
                 Response.Listener {
                     progressBar!!.visibility = View.GONE
-                    val jsonArray = it.getJSONArray(Commons.DRINKS) as JSONArray
-                    if (jsonArray.length() < 1){
-                        noResults!!.visibility = View.VISIBLE
-                        searchList!!.visibility = View.GONE
-                        return@Listener
-                    } else {
-                        searchList!!.visibility = View.VISIBLE
-                        for (i in 0 until (jsonArray.length() - 1)) {
-                            val o = jsonArray[i] as JSONObject
-                            val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
-                            if (!cocktails.contains(cockTail)) {
-                                cocktails.add(cockTail)
+
+                    if(it.has(Commons.DRINKS)) {
+                        val jsonArray = it.getJSONArray(Commons.DRINKS) as JSONArray
+                        if (jsonArray.length() < 1) {
+                            noResults!!.visibility = View.VISIBLE
+                            searchList!!.visibility = View.GONE
+                            return@Listener
+                        } else {
+                            searchList!!.visibility = View.VISIBLE
+                            for (i in 0 until (jsonArray.length() - 1)) {
+                                val o = jsonArray[i] as JSONObject
+                                val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
+                                if (!cocktails.contains(cockTail)) {
+                                    cocktails.add(cockTail)
+                                }
                             }
                         }
+                        cocktails = cocktails.shuffled() as MutableList<CocktailModel>
+                        cocktailAdapter.setItems(cocktails)
+                    } else {
+                        noResults!!.visibility = View.VISIBLE
+                        searchList!!.visibility = View.GONE
                     }
-                    cocktails = cocktails.shuffled() as MutableList<CocktailModel>
-                    cocktailAdapter.setItems(cocktails)
                 },
                 Response.ErrorListener {
-                    Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
+                    progressBar!!.visibility = View.GONE
+                    noResults!!.visibility = View.VISIBLE
+                    searchList!!.visibility = View.GONE
                     Log.e("FETCHING", it.message)
                 })
 
