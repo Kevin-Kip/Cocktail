@@ -21,19 +21,23 @@ import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.adapters.IngredientsAdapter
+import com.truekenyan.cocktail.callbacks.CocktailDao
+import com.truekenyan.cocktail.database.AppDatabase
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.models.Ingredient
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_cock_tail.*
 import org.json.JSONObject
+import java.util.*
 
 class CocktailActivity : AppCompatActivity() {
 
     private var ingredients = mutableListOf<Ingredient>()
     private var suggestions = mutableListOf<CocktailModel>()
     private var drinkId: Int? = null
-    private lateinit var i: Intent
-    private lateinit var cockTail: CocktailModel
+    private var i: Intent? = null
+    private var cockTail: CocktailModel? = null
     private lateinit var ingredientsAdapter: IngredientsAdapter
     private lateinit var cocktailAdapter: CocktailAdapter
     private lateinit var cocktailImage: ImageView
@@ -42,7 +46,10 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var moreRecyclerView: RecyclerView
     private var requestQueue: RequestQueue? = null
     private var favoriteImage: ImageView? = null
-    private var favorites = mutableListOf<String>()
+    private var favorites = mutableListOf<Fav?>()
+    private var favoritesDb: AppDatabase? = null
+    private var favoritesDao: CocktailDao? = null
+    private var isFavorite: Boolean? = false
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -53,8 +60,11 @@ class CocktailActivity : AppCompatActivity() {
         initViews()
 
         i = intent
-        drinkId = (i.getStringExtra(Commons.DRINK_ID)).toInt()
+        drinkId = (i!!.getStringExtra(Commons.DRINK_ID)).toInt()
         val fullURL: String = Commons.COCKTAIL + drinkId
+
+        favoritesDb = AppDatabase.getInstance(context = applicationContext)
+        favoritesDao = favoritesDb!!.coctailDao()
 
         requestQueue = Volley.newRequestQueue(this@CocktailActivity)
         getDetails(fullURL)
@@ -75,8 +85,21 @@ class CocktailActivity : AppCompatActivity() {
         }
 
         favoriteImage!!.setOnClickListener {
-
+            if (isFavorite!!){
+                isFavorite = false
+//                favoritesDao!!.removeFromFavs(fav) TODO REMOVE FROM FAVORITES
+                return@setOnClickListener
+            }
+            val fav = Fav(favId = favorites.size + 1,
+                    drinkId = drinkId!!.toString(),
+                    drinkName = cockTail!!.strDrink,
+                    drinkPhoto = cockTail!!.strDrinkThumb)
+            favoritesDao!!.addToFavs(fav)
+            favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
+            isFavorite = true
         }
+
+        favorites = favoritesDao!!.getFavs()
     }
 
     private fun initViews(){
@@ -108,21 +131,24 @@ class CocktailActivity : AppCompatActivity() {
                         }
                     }
 
-                    method.text = (cockTail.strInstructions)!!.replace(". ", ".\n")
+                    method.text = (cockTail!!.strInstructions)!!.replace(". ", ".\n")
                     ingredientsAdapter.setIngredients(ingredients)
                     Picasso.get()
-                            .load(cockTail.strDrinkThumb)
+                            .load(cockTail!!.strDrinkThumb)
                             .placeholder(R.drawable.placeholder)
                             .into(cocktail_image)
-                    collapsing_toolbar.title = cockTail.strDrink
-                    tag.text = cockTail.strAlcoholic
-                    for (i in favorites){
-                        if (i.equals(cockTail.idDrink)){
+                    collapsing_toolbar.title = cockTail!!.strDrink
+                    tag.text = cockTail!!.strAlcoholic
+                    for (fav in favorites){
+                        if (fav!!.drinkId == (cockTail!!.idDrink)){
                             favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
+                            isFavorite = true
                             break
                         }
                     }
-                    getMore(drinkId.toString(), i.getParcelableArrayListExtra(Commons.COCKTAILS))
+                    if (i!!.hasExtra(Commons.COCKTAILS)) {
+                        getMore(drinkId.toString(), i!!.getParcelableArrayListExtra(Commons.COCKTAILS))
+                    }
                 },
                 Response.ErrorListener {
                     Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()
