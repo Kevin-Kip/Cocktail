@@ -10,7 +10,7 @@ import com.truekenyan.cocktail.R
 
 class FragmentSearch : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        val rootView = inflater.inflate(R.layout.fragment_home, container, false)
+        val rootView = inflater.inflate(R.layout.fragment_search, container, false)
         Toast.makeText(context, "This is search", Toast.LENGTH_SHORT).show()
         return rootView
     }

@@ -11,6 +11,6 @@ class IngredientsViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) 
     private val ingredientName = itemView.findViewById<TextView>(R.id.ingredient)
     @SuppressLint("SetTextI18n")
     fun bind(ingredient: Ingredient){
-        ingredientName.text = ingredient.measure + " "+ ingredient.name
+        ingredientName.text = (ingredient.measure)!!.trim() + " "+ ingredient.name
     }
 }

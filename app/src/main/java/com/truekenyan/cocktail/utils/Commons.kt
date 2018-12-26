@@ -12,4 +12,7 @@ object Commons {
     const val URL_RANDOM = "https://www.thecocktaildb.com/api/json/v1/1/random.php"
     const val ALCOHOLIC = "Alcoholic"
     const val NON_ALCOHOLIC = "Non Alcoholic"
+    const val COCKTAILS = "Cocktails"
+    const val SEARCH = "Search"
+    const val FAVORITES = "Favorites"
 }

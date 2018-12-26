@@ -58,11 +58,28 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:id="@+id/tag"
+                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintBottom_toTopOf="@id/ingredients_title"
+                android:background="@drawable/rounded_bg"
+                android:textStyle="bold|italic"
+                android:textColor="@android:color/white"
+                android:alpha="0.8"
+                android:paddingTop="@dimen/dimen_5dp"
+                android:paddingBottom="@dimen/dimen_5dp"
+                android:paddingStart="@dimen/dimen_10dp"
+                android:paddingEnd="@dimen/dimen_10dp"
+                android:layout_margin="@dimen/dimen_5dp"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
                 android:padding="@dimen/dimen_3dp"
                 android:id="@+id/ingredients_title"
                 android:text="@string/ingredients"
                 android:textStyle="bold"
-                app:layout_constraintTop_toTopOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/tag"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintBottom_toTopOf="@id/ingredients_recycler"/>
 
@@ -95,7 +112,7 @@
                 app:layout_constraintTop_toBottomOf="@id/method_title"
                 app:layout_constraintStart_toStartOf="@id/method_title"
                 app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintBottom_toBottomOf="parent"/>
+                app:layout_constraintBottom_toTopOf="@id/more_title"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -106,7 +123,8 @@
                 android:textStyle="bold"
                 app:layout_constraintTop_toBottomOf="@id/method"
                 app:layout_constraintStart_toStartOf="@id/method"
-                app:layout_constraintEnd_toEndOf="@id/method"/>
+                app:layout_constraintEnd_toEndOf="@id/method"
+                app:layout_constraintBottom_toTopOf="@id/more_list"/>
 
             <android.support.v7.widget.RecyclerView
                 android:layout_width="wrap_content"

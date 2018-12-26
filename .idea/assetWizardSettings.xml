@@ -18,7 +18,7 @@
                                 <PersistentState>
                                   <option name="values">
                                     <map>
-                                      <entry key="url" value="jar:file:/home/password/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/content/ic_filter_list_black_24dp.xml" />
+                                      <entry key="url" value="jar:file:/home/password/android-studio/plugins/android/lib/android.jar!/images/material_design_icons/action/ic_favorite_black_24dp.xml" />
                                     </map>
                                   </option>
                                 </PersistentState>
@@ -28,8 +28,8 @@
                         </option>
                         <option name="values">
                           <map>
-                            <entry key="color" value="a8a8a8" />
-                            <entry key="outputName" value="ic_filter" />
+                            <entry key="color" value="c3c3c3" />
+                            <entry key="outputName" value="ic_favorite" />
                             <entry key="sourceFile" value="$USER_HOME$" />
                           </map>
                         </option>
