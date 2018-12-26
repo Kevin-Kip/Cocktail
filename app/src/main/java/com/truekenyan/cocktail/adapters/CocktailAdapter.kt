@@ -8,7 +8,7 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.holders.CocktailViewHolder
 import com.truekenyan.cocktail.models.CocktailModel
 
-class CocktailAdapter(private val context: Context, private var cocktails: List<CocktailModel>)
+class CocktailAdapter(private val context: Context, private var cocktails: List<CocktailModel>,private val isMain: Boolean?)
     : RecyclerView.Adapter<CocktailViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, position: Int): CocktailViewHolder {
@@ -18,7 +18,7 @@ class CocktailAdapter(private val context: Context, private var cocktails: List<
 
     override fun getItemCount(): Int = cocktails.size
 
-    override fun onBindViewHolder(holder: CocktailViewHolder, position: Int) = holder.bind(cocktails[position])
+    override fun onBindViewHolder(holder: CocktailViewHolder, position: Int) = holder.bind(cocktails[position], cocktails, isMain)
 
     fun setItems(list: List<CocktailModel>){
         cocktails = list

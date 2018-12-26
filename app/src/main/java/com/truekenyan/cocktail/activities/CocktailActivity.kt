@@ -8,6 +8,8 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -25,7 +27,6 @@ import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.models.Ingredient
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_cock_tail.*
-import org.json.JSONArray
 import org.json.JSONObject
 
 class CocktailActivity : AppCompatActivity() {
@@ -59,7 +60,7 @@ class CocktailActivity : AppCompatActivity() {
         getDetails(fullURL)
 
         ingredientsAdapter = IngredientsAdapter(this@CocktailActivity,ingredients)
-        cocktailAdapter = CocktailAdapter(this@CocktailActivity, suggestions)
+        cocktailAdapter = CocktailAdapter(this@CocktailActivity, suggestions, false)
         ingredientsRecycler.apply {
             adapter = ingredientsAdapter
             hasFixedSize()
@@ -109,6 +110,8 @@ class CocktailActivity : AppCompatActivity() {
                             .placeholder(R.drawable.placeholder)
                             .into(cocktail_image)
                     collapsing_toolbar.title = cockTail.strDrink
+                    tag.text = cockTail.strAlcoholic
+                    getMore(drinkId.toString(), i.getParcelableArrayListExtra(Commons.COCKTAILS))
                 },
                 Response.ErrorListener {
                     Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()
@@ -117,26 +120,27 @@ class CocktailActivity : AppCompatActivity() {
         requestQueue!!.add(jsonObjectRequest)
     }
 
-    private fun getMore(suggestion: String?){
-        val jsonObjectRequest = JsonObjectRequest(
-                Request.Method.GET,
-                Commons.SEARCH_URL+suggestion,
-                JSONObject(),
-                Response.Listener {
-                    val jsonArray = it.getJSONArray(Commons.DRINKS) as JSONArray
-                    for (i in 0..10){
-                        val o = jsonArray[i] as JSONObject
-                        val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
-                        if (!suggestions.contains(cockTail)) {
-                            suggestions.add(cockTail)
-                        }
-                    }
-                    cocktailAdapter.setItems(suggestions)
-                },
-                Response.ErrorListener {
-                    Toast.makeText(this@CocktailActivity, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
-                    Log.e("FETCHING", it.message)
-                })
-        requestQueue!!.add(jsonObjectRequest)
+    private fun getMore(currentId: String?, list: ArrayList<CocktailModel>){
+        val newList = mutableListOf<CocktailModel>()
+        for (i in 0..12) {
+            for (item in list) {
+                if (item.idDrink != currentId) {
+                    newList.add(item)
+                }
+            }
+        }
+        cocktailAdapter.setItems(newList)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+        menuInflater.inflate(R.menu.cock_tail_options, menu)
+        return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        if(item!!.itemId == R.id.options_favorite){
+
+        }
+        return super.onOptionsItemSelected(item)
     }
 }
