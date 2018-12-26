@@ -15,6 +15,7 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.fragments.FragmentFavorite
 import com.truekenyan.cocktail.fragments.FragmentHome
+import com.truekenyan.cocktail.fragments.FragmentInfo
 import com.truekenyan.cocktail.fragments.FragmentSearch
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_main.*
@@ -27,6 +28,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private var homeFragment: Fragment? = null
     private var searchFragment: Fragment? = null
     private var favoritesFragment: Fragment? = null
+    private var infoFragment: Fragment? = null
     private var doubleBackToExitPressedOnce = false
     private var toolbar: Toolbar? = null
 
@@ -41,6 +43,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
         homeFragment = FragmentHome()
         searchFragment = FragmentSearch()
         favoritesFragment = FragmentFavorite()
+        infoFragment = FragmentInfo()
 
         changeFragment(homeFragment!!, Commons.COCKTAILS)
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener)
@@ -61,6 +64,11 @@ class MainActivity : AppCompatActivity(), Callbacks {
             }
             R.id.navigation_favorites -> {
                 changeFragment(favoritesFragment!!, Commons.FAVORITES)
+                isHome = false
+                return@OnNavigationItemSelectedListener true
+            }
+            R.id.navigation_info -> {
+                changeFragment(infoFragment!!, Commons.INFO)
                 isHome = false
                 return@OnNavigationItemSelectedListener true
             }
