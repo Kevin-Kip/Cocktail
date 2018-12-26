@@ -5,10 +5,10 @@
     android:layout_height="wrap_content"
     xmlns:tools="http://schemas.android.com/tools"
     app:cardBackgroundColor="#f7f7f7"
-    app:cardCornerRadius="@dimen/dimen_3dp"
+    app:cardCornerRadius="@dimen/dimen_1dp"
     app:cardElevation="@dimen/dimen_3dp"
     android:padding="@dimen/dimen_3dp"
-    android:layout_margin="1dp"
+    android:layout_margin="@dimen/dimen_3dp"
     android:id="@+id/main_parent">
 
     <android.support.constraint.ConstraintLayout
