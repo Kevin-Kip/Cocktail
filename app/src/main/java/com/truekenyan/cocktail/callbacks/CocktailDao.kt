@@ -18,4 +18,7 @@ interface CocktailDao {
 
     @Delete
     fun removeFromFavs(drink: Fav?)
+
+    @Query("SELECT 1 FROM ${Commons.DRINKS} WHERE")
+    fun getOne(drinkName: String?): Fav?
 }

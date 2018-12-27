@@ -108,6 +108,7 @@ class CocktailActivity : AppCompatActivity() {
         ingredientsRecycler = findViewById(R.id.ingredients_recycler)
         moreRecyclerView = findViewById(R.id.more_list)
         favoriteImage = findViewById(R.id.favorite)
+        favoriteImage!!.isEnabled = false
     }
 
     private fun getDetails(url: String) {
@@ -138,6 +139,7 @@ class CocktailActivity : AppCompatActivity() {
                             .placeholder(R.drawable.placeholder)
                             .into(cocktail_image)
                     collapsing_toolbar.title = cockTail!!.strDrink
+                    favoriteImage!!.isEnabled = true
                     tag.text = cockTail!!.strAlcoholic
                     for (fav in favorites){
                         if (fav!!.drinkId == (cockTail!!.idDrink)){

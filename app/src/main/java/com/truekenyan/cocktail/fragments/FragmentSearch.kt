@@ -67,7 +67,8 @@ class FragmentSearch : Fragment() {
             keyWord = keyWord!!.replace(" ", "_")
             searchButton!!.isEnabled = false
             progressBar!!.visibility = View.VISIBLE
-            fetchDrinks(Commons.SEARCH_URL + keyWord)
+//            fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
+            fetchDrinks(Commons.NAME_SEARCH + keyWord)
         }
 
         clearButton!!.setOnClickListener {
@@ -133,7 +134,7 @@ class FragmentSearch : Fragment() {
                     progressBar!!.visibility = View.GONE
                     noResults!!.visibility = View.VISIBLE
                     searchList!!.visibility = View.GONE
-                    Log.e("FETCHING", it.message)
+                    Log.e("FETCHING", it!!.message)
                 })
 
         requestQueue!!.add(jsonObjectRequest)
