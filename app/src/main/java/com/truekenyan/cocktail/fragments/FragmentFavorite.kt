@@ -10,11 +10,12 @@ import android.view.View
 import android.view.ViewGroup
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.FavoritesAdapter
+import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.callbacks.CocktailDao
 import com.truekenyan.cocktail.database.AppDatabase
 import com.truekenyan.cocktail.models.Fav
 
-class FragmentFavorite : Fragment() {
+class FragmentFavorite : Fragment(), Callbacks {
 
     private var favsList = mutableListOf<Fav?>()
     private var favs: RecyclerView? = null
@@ -25,17 +26,31 @@ class FragmentFavorite : Fragment() {
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_favs, container, false)
         favoritesDb = AppDatabase.getInstance(context)
-        favoritesDao = favoritesDb!!.coctailDao()
-        favsList = favoritesDao!!.getFavs()
         favs = rootView.findViewById(R.id.favs_list)
         favsAdapter = FavoritesAdapter(context!!, favsList)
-        favsAdapter!!.setItems(favsList)
+        refreshFavs()
         favs!!.apply {
             adapter = favsAdapter
             hasFixedSize()
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(context)
         }
+        favsAdapter!!.setItems(favsList)
         return rootView
     }
+
+    override fun onRemoveClicked(name: String?) {
+        val f: Fav = (favoritesDao!!.getOne(drinkName = name))[0]!!
+        favoritesDao!!.removeFromFavs(f)
+        refreshFavs()
+    }
+
+    override fun onTitleFound(name: String?) {}
+
+    private fun refreshFavs(){
+        favoritesDao = favoritesDb!!.coctailDao()
+        favsList = favoritesDao!!.getFavs()
+        favsAdapter!!.setItems(favsList)
+    }
+
 }

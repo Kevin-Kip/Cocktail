@@ -109,6 +109,8 @@ class MainActivity : AppCompatActivity(), Callbacks {
         toolbar!!.title = name
     }
 
+    override fun onRemoveClicked(name: String?) {}
+
     override fun onBackPressed() {
         if (doubleBackToExitPressedOnce) {
             super.onBackPressed()

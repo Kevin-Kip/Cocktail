@@ -8,18 +8,21 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/about_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_10dp"
             android:text="@string/about"
+            android:id="@+id/about_title"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:id="@+id/about_text"
             android:text="@string/long_about"
             android:padding="@dimen/dimen_5dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
@@ -35,20 +38,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/share_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_10dp"
+            android:id="@+id/share_title"
             android:text="@string/share"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/long_about"
+            android:text="@string/share_download_link"
             android:padding="@dimen/dimen_5dp"
+            android:id="@+id/share_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
         <View
@@ -62,20 +68,23 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:id="@+id/contact_parent">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:padding="@dimen/dimen_10dp"
+            android:id="@+id/contact_title"
             android:text="@string/contact_developer"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"/>
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/long_about"
+            android:text="@string/send_an_email"
             android:padding="@dimen/dimen_5dp"
+            android:id="@+id/contact_text"
             android:textAppearance="@style/TextAppearance.AppCompat.Caption"/>
 
         <View

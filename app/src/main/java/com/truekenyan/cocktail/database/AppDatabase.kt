@@ -8,7 +8,7 @@ import com.truekenyan.cocktail.callbacks.CocktailDao
 import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.utils.Commons
 
-@Database(entities = [Fav::class], version = 1)
+@Database(entities = [Fav::class], version = 1, exportSchema = false)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun coctailDao(): CocktailDao
     companion object {

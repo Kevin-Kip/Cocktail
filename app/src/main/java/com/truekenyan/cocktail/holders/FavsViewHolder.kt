@@ -9,6 +9,7 @@ import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.activities.CocktailActivity
+import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.utils.Commons
 
@@ -17,9 +18,10 @@ class FavsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val drinkImage: ImageView = itemView.findViewById(R.id.fav_image)
     private val deleteIcon: ImageView = itemView.findViewById(R.id.remove_fav)
     private val drinkName: TextView = itemView.findViewById(R.id.fav_name)
-    private var favoriteId: Int? = null
+    private var favoriteName: String? = null
+    private var listener: Callbacks? = itemView.context as Callbacks
     fun bind(fav: Fav) {
-        favoriteId = fav.favId
+        favoriteName = fav.drinkName
         Picasso.get()
                 .load(fav.drinkPhoto)
                 .placeholder(R.drawable.placeholder)
@@ -35,7 +37,7 @@ class FavsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private fun clickListener(drinkId: String?,  remove: Boolean?): View.OnClickListener{
         return View.OnClickListener {
             if (remove!!){
-//                TODO delete
+                listener!!.onRemoveClicked(favoriteName)
             } else {
                 val i = Intent(itemView.context, CocktailActivity::class.java).apply {
                     putExtra(Commons.DRINK_ID, drinkId)

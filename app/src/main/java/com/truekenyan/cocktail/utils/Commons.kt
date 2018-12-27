@@ -17,4 +17,6 @@ object Commons {
     const val SEARCH = "Search"
     const val FAVORITES = "Favorites"
     const val INFO = "Info"
+    const val DRINK_NAME = "drinkName"
+    const val DOWNLOAD_URL = "https://goo.gl/8U839A" //TODO update URL
 }
