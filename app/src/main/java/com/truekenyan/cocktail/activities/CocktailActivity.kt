@@ -161,7 +161,7 @@ class CocktailActivity : AppCompatActivity() {
 
     private fun getMore(currentId: String?, list: ArrayList<CocktailModel>){
         val newList = mutableListOf<CocktailModel>()
-        for (i in 0..12) {
+        for (i in 1..list.size) {
             for (item in list) {
                 if (item.idDrink != currentId) {
                     newList.add(item)
