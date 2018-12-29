@@ -2,6 +2,7 @@ package com.truekenyan.cocktail.fragments
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
+import android.content.Intent.createChooser
 import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
@@ -61,10 +62,10 @@ class FragmentInfo: Fragment() {
         return View.OnClickListener {
             when (a){
                 Action.ABOUT -> {
-                    AlertDialog.Builder(activity!!.applicationContext)
+                    AlertDialog.Builder(it.context)
                             .setTitle(R.string.about)
                             .setMessage(R.string.about_body)
-                            .setNeutralButton(R.string.dismiss) { dialog, _ ->
+                            .setPositiveButton(R.string.dismiss) { dialog, _ ->
                                 dialog.dismiss()
                             }
                             .create()
@@ -81,14 +82,11 @@ class FragmentInfo: Fragment() {
                     startActivity(Intent.createChooser(i, getString(R.string.share_using)))
                 }
                 Action.CONTACT -> {
-                    var string = "mailto:kevkiprotich@gmail.com" +
-                            "&subject=Android%20Development" +
-                            "&body=Hello%20Kevin.%20I%20found%20your%20Cocktail%20App."
-                    string = Uri.encode(string)
                     val i = Intent(Intent.ACTION_SENDTO).apply {
-                        data = Uri.parse(string)
+                        data = Uri.parse("mailto: kevkiprotich@gmail.com")
+                        putExtra(Intent.EXTRA_SUBJECT, "Cocktail App")
                     }
-                    startActivity(i)
+                    startActivity(createChooser(i, getString(R.string.send_email_using)))
                 }
             }
         }
