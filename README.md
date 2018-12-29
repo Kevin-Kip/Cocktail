@@ -26,9 +26,9 @@ The app is coming soon ...
 - [ ] Caching for offline access  
 
 ## Look and Feel
-<img src="art/device1.png" width="150"> <img src="art/device2.png" width="150">
-<img src="art/device3.png" width="150"> <img src="art/device4.png" width="150">
-<img src="art/device5.png" width="150"> <img src="art/device6.png" width="150">
+<img src="art/device1.png" width="250"> <img src="art/device2.png" width="250">
+<img src="art/device3.png" width="250"> <img src="art/device4.png" width="250">
+<img src="art/device5.png" width="250"> <img src="art/device6.png" width="250">
 
 ### Support
 <a href="https://www.buymeacoffee.com/CHFudJf9j" target="_blank"><img src="https://www.buymeacoffee.com/assets/img/custom_images/purple_img.png" alt="Buy Me A Coffee" style="height: auto !important;width: auto !important;" ></a>
