@@ -23,6 +23,7 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
+import com.truekenyan.cocktail.utils.PrefManager
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -35,10 +36,11 @@ class FragmentSearch : Fragment() {
     private var progressBar: ProgressBar? = null
     private var keyWord: String? = null
     private var noResults: TextView? = null
-    private var searchByName: Boolean = true
+    private var searchByName: Boolean? = null
     private lateinit var cocktailAdapter: CocktailAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
+    private var prefManager: PrefManager? = null
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
@@ -48,8 +50,11 @@ class FragmentSearch : Fragment() {
         searchButton = rootView.findViewById(R.id.button_search)
         progressBar = rootView.findViewById(R.id.progress_bar)
         noResults = rootView.findViewById(R.id.no_results)
+        prefManager = PrefManager(context!!)
 
         setHasOptionsMenu(true)
+
+        searchByName = prefManager!!.searchByName()
 
         cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
         requestQueue = Volley.newRequestQueue(context)
@@ -62,15 +67,15 @@ class FragmentSearch : Fragment() {
             itemAnimator = DefaultItemAnimator()
         }
 
+        searchInput!!.setOnFocusChangeListener { v, hasFocus ->
+            if (hasFocus)v.isEnabled
+        }
+
         searchButton!!.setOnClickListener {
             keyWord = searchInput!!.text.trim().toString()
             keyWord = keyWord!!.replace(" ", "_")
             searchButton!!.isEnabled = false
             progressBar!!.visibility = View.VISIBLE
-            when {
-                searchByName -> fetchDrinks(Commons.NAME_SEARCH + keyWord)
-                else -> fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
-            }
         }
 
         clearButton!!.setOnClickListener {
@@ -78,6 +83,20 @@ class FragmentSearch : Fragment() {
         }
 
         return rootView
+    }
+
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val menuIngredient = menu?.findItem(R.id.search_ingredient)
+        val menuName = menu?.findItem(R.id.search_name)
+        when (prefManager!!.searchByName()){
+            true -> {
+                menuName!!.isChecked = true
+            }
+            else -> {
+                menuIngredient!!.isChecked = true
+            }
+        }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
@@ -88,20 +107,25 @@ class FragmentSearch : Fragment() {
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
         when (item!!.itemId){
             R.id.search_ingredient -> {
-                searchByName = false
-                if (keyWord != null){
-                    fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
+                if (prefManager!!.searchByName()) {
+                    prefManager!!.setSearchByName(false)
+                    if (keyWord != null) {
+                        fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
+                    }
                 }
                 return true
             }
             R.id.search_name -> {
-                searchByName = true
-                if (keyWord != null){
-                    fetchDrinks(Commons.NAME_SEARCH + keyWord)
+                if (!prefManager!!.searchByName()) {
+                    prefManager!!.setSearchByName(true)
+                    if (keyWord != null) {
+                        fetchDrinks(Commons.NAME_SEARCH + keyWord)
+                    }
                 }
                 return true
             }
         }
+        activity!!.invalidateOptionsMenu()
         return super.onOptionsItemSelected(item)
     }
 
@@ -128,6 +152,7 @@ class FragmentSearch : Fragment() {
     }
 
     private fun fetchDrinks(drinkUrl: String?){
+        keyWord = null
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
                 drinkUrl,
                 JSONObject(),
