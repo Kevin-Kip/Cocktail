@@ -42,6 +42,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@id/message"
-        app:menu="@menu/navigation" />
+        app:menu="@menu/navigation"
+        app:labelVisibilityMode="unlabeled"/>
 
 </android.support.constraint.ConstraintLayout>
