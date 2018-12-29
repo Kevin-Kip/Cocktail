@@ -62,22 +62,16 @@ class FragmentInfo: Fragment() {
         return View.OnClickListener {
             when (a){
                 Action.ABOUT -> {
-                    AlertDialog.Builder(it.context)
-                            .setTitle(R.string.about)
+                    AlertDialog.Builder(it.context).setTitle(R.string.about)
                             .setMessage(R.string.about_body)
-                            .setPositiveButton(R.string.dismiss) { dialog, _ ->
-                                dialog.dismiss()
-                            }
-                            .create()
-                            .show()
-
+                            .setPositiveButton(R.string.dismiss) { dialog, _ -> dialog.dismiss() }
+                            .create().show()
                 }
                 Action.SHARE -> {
-                    val string = "Check out this Cocktail app by Kevin. Download from ${Commons.DOWNLOAD_URL}"
                     val i = Intent().apply {
                         type = "text/plain"
                         action = ACTION_SEND
-                        putExtra(Intent.EXTRA_TEXT, string)
+                        putExtra(Intent.EXTRA_TEXT, "Check out this Cocktail app by Kevin. Download from ${Commons.DOWNLOAD_URL}")
                     }
                     startActivity(Intent.createChooser(i, getString(R.string.share_using)))
                 }

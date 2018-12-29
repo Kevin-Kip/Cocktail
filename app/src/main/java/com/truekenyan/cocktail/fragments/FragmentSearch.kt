@@ -44,18 +44,9 @@ class FragmentSearch : Fragment() {
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
-        searchList = rootView.findViewById(R.id.search_list)
-        searchInput = rootView.findViewById(R.id.input_word)
-        clearButton = rootView.findViewById(R.id.button_clear)
-        searchButton = rootView.findViewById(R.id.button_search)
-        progressBar = rootView.findViewById(R.id.progress_bar)
-        noResults = rootView.findViewById(R.id.no_results)
-        prefManager = PrefManager(context!!)
-
+        initViews(rootView)
         setHasOptionsMenu(true)
-
         searchByName = prefManager!!.searchByName()
-
         cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
         requestQueue = Volley.newRequestQueue(context)
         searchInput!!.addTextChangedListener(searchListener)
@@ -83,6 +74,16 @@ class FragmentSearch : Fragment() {
         }
 
         return rootView
+    }
+
+    private fun initViews(rootView: View){
+        searchList = rootView.findViewById(R.id.search_list)
+        searchInput = rootView.findViewById(R.id.input_word)
+        clearButton = rootView.findViewById(R.id.button_clear)
+        searchButton = rootView.findViewById(R.id.button_search)
+        progressBar = rootView.findViewById(R.id.progress_bar)
+        noResults = rootView.findViewById(R.id.no_results)
+        prefManager = PrefManager(context!!)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
