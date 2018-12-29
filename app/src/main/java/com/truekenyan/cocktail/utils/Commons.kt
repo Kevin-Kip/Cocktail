@@ -19,4 +19,11 @@ object Commons {
     const val INFO = "Info"
     const val DRINK_NAME = "drinkName"
     const val DOWNLOAD_URL = "https://goo.gl/8U839A" //TODO update URL
+    const val FAV_ID = "favId"
+    const val ORDER = "Order"
+    const val ASCENDING = "Ascending"
+    const val DESCENDING = "Descending"
+    const val RANDOM = "Random"
+    const val USE_NAME = "use-name"
+    const val HOME = "Home"
 }

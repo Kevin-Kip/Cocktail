@@ -19,11 +19,20 @@
     <string name="contact_developer">Contact Developer</string>
     <string name="share">Share</string>
     <string name="empty"> </string>
-    <string name="send_an_email">Send an Email with</string>
+    <string name="send_an_email">Send an feedback and suggestions via Email.</string>
     <string name="share_download_link">Share download link with friends.</string>
     <string name="dismiss">DISMISS</string>
     <string name="share_using">Share using:</string>
     <string name="about_body">This is an app for cocktail lovers and curious people. \n The recipes are sourced from thecocktaildb.com</string>
     <string name="name">Name</string>
     <string name="search_by">Search by:</string>
+    <string name="clear_favorites">Clear Favorites</string>
+    <string name="drink_type">Drink Type:</string>
+    <string name="alcoholic">Alcoholic</string>
+    <string name="non_alcoholic">Non Alcoholic</string>
+    <string name="order">Order:</string>
+    <string name="descending">Descending</string>
+    <string name="ascending">Ascending</string>
+    <string name="random">Random</string>
+    <string name="send_email_using">Send Email using</string>
 </resources>
