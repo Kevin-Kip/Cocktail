@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <item android:id="@+id/alcohol"
+        android:title="@string/drink_type"
+        android:icon="@drawable/ic_sort"
+        app:showAsAction="never">
+        <menu>
+            <group android:id="@+id/drink_type"
+                android:checkableBehavior="single">
+                <item android:id="@+id/alcoholic"
+                    android:title="@string/alcoholic"/>
+                <item android:id="@+id/non_alcoholic"
+                    android:title="@string/non_alcoholic"/>
+            </group>
+        </menu>
+    </item>
+    <item android:id="@+id/order_by"
+        android:title="@string/order"
+        android:icon="@drawable/ic_sort_by_name"
+        app:showAsAction="ifRoom">
+        <menu>
+            <group android:id="@+id/order"
+                android:checkableBehavior="single">
+                <item android:id="@+id/random"
+                    android:title="@string/random"/>
+                <item android:id="@+id/ascending"
+                    android:title="@string/ascending"/>
+                <item android:id="@+id/descending"
+                    android:title="@string/descending"/>
+            </group>
+        </menu>
+    </item>
+</menu>
