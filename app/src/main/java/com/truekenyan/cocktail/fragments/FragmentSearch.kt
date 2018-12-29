@@ -8,9 +8,7 @@ import android.support.v7.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
@@ -37,7 +35,7 @@ class FragmentSearch : Fragment() {
     private var progressBar: ProgressBar? = null
     private var keyWord: String? = null
     private var noResults: TextView? = null
-
+    private var searchByName: Boolean = true
     private lateinit var cocktailAdapter: CocktailAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
@@ -50,6 +48,8 @@ class FragmentSearch : Fragment() {
         searchButton = rootView.findViewById(R.id.button_search)
         progressBar = rootView.findViewById(R.id.progress_bar)
         noResults = rootView.findViewById(R.id.no_results)
+
+        setHasOptionsMenu(true)
 
         cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
         requestQueue = Volley.newRequestQueue(context)
@@ -67,8 +67,10 @@ class FragmentSearch : Fragment() {
             keyWord = keyWord!!.replace(" ", "_")
             searchButton!!.isEnabled = false
             progressBar!!.visibility = View.VISIBLE
-//            fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
-            fetchDrinks(Commons.NAME_SEARCH + keyWord)
+            when {
+                searchByName -> fetchDrinks(Commons.NAME_SEARCH + keyWord)
+                else -> fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
+            }
         }
 
         clearButton!!.setOnClickListener {
@@ -76,6 +78,31 @@ class FragmentSearch : Fragment() {
         }
 
         return rootView
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater!!.inflate(R.menu.search_options, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId){
+            R.id.search_ingredient -> {
+                searchByName = false
+                if (keyWord != null){
+                    fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
+                }
+                return true
+            }
+            R.id.search_name -> {
+                searchByName = true
+                if (keyWord != null){
+                    fetchDrinks(Commons.NAME_SEARCH + keyWord)
+                }
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     private val searchListener = object : TextWatcher{

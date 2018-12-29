@@ -7,8 +7,6 @@ import android.support.design.widget.BottomNavigationView
 import android.support.v4.app.Fragment
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
-import android.view.Menu
-import android.view.MenuItem
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.truekenyan.cocktail.R
@@ -91,19 +89,19 @@ class MainActivity : AppCompatActivity(), Callbacks {
         toolbar!!.title = name
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.main_options, menu)
-        return super.onCreateOptionsMenu(menu)
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){
-            R.id.options_filter -> {
-
-            }
-        }
-        return super.onOptionsItemSelected(item)
-    }
+//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+//        menuInflater.inflate(R.menu.main_options, menu)
+//        return super.onCreateOptionsMenu(menu)
+//    }
+//
+//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+//        when (item!!.itemId){
+//            R.id.options_filter -> {
+//
+//            }
+//        }
+//        return super.onOptionsItemSelected(item)
+//    }
 
     override fun onTitleFound(name: String?) {
         toolbar!!.title = name

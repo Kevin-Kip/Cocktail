@@ -7,9 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
 import com.android.volley.Request
@@ -43,6 +41,8 @@ class FragmentHome : Fragment() {
         cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
         requestQueue = Volley.newRequestQueue(context)
 
+        setHasOptionsMenu(true)
+
         if((Random().nextInt() % 2) == 0){
             fetchDrinks(Commons.URL_ALCOHOLIC)
             listener!!.onTitleFound(Commons.ALCOHOLIC)
@@ -58,6 +58,11 @@ class FragmentHome : Fragment() {
             itemAnimator = DefaultItemAnimator()
         }
         return rootView
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater!!.inflate(R.menu.main_options, menu)
     }
 
     override fun onAttach(context: Context?) {
