@@ -5,9 +5,8 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.view.LayoutInflater
-import android.view.View
-import android.view.ViewGroup
+import android.view.*
+import android.widget.Toast
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.FavoritesAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
@@ -28,6 +27,7 @@ class FragmentFavorite : Fragment(), Callbacks {
         favoritesDb = AppDatabase.getInstance(context)
         favs = rootView.findViewById(R.id.favs_list)
         favsAdapter = FavoritesAdapter(context!!, favsList)
+        setHasOptionsMenu(true)
         refreshFavs()
         favs!!.apply {
             adapter = favsAdapter
@@ -39,8 +39,24 @@ class FragmentFavorite : Fragment(), Callbacks {
         return rootView
     }
 
+    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+        super.onCreateOptionsMenu(menu, inflater)
+        inflater!!.inflate(R.menu.favorite_options, menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
+        when (item!!.itemId){
+            R.id.clear_favorites -> {
+                favoritesDao!!.clearFavorites()
+                return true
+            }
+        }
+        return super.onOptionsItemSelected(item)
+    }
+
     override fun onRemoveClicked(name: String?) {
         val f: Fav = (favoritesDao!!.getOne(drinkName = name))[0]!!
+        Toast.makeText(context, "Removing", Toast.LENGTH_SHORT).show()
         favoritesDao!!.removeFromFavs(f)
         refreshFavs()
     }
