@@ -17,4 +17,37 @@ class PrefManager(context: Context) {
     fun hasLaunched(): Boolean {
         return sharedPref.getBoolean(Commons.HAS_LAUNCHED, true)
     }
+
+    fun setAlcoholic(isAlcoholic: Boolean){
+        editor.apply {
+            putBoolean(Commons.ALCOHOLIC, isAlcoholic)
+            apply()
+        }
+    }
+
+    fun isAlcoholic(): Boolean{
+        return sharedPref.getBoolean(Commons.ALCOHOLIC, true)
+    }
+
+    fun setOrder(order: String?){
+        editor.apply {
+            putString(Commons.ORDER, order)
+            apply()
+        }
+    }
+
+    fun getOrder(): String? {
+        return sharedPref.getString(Commons.ORDER, Commons.RANDOM)
+    }
+
+    fun setSearchByName(useName: Boolean){
+        editor.apply {
+            putBoolean(Commons.USE_NAME, useName)
+            apply()
+        }
+    }
+
+    fun searchByName(): Boolean {
+        return sharedPref.getBoolean(Commons.USE_NAME, true)
+    }
 }
