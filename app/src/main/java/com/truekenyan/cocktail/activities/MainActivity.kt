@@ -21,7 +21,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 class MainActivity : AppCompatActivity(), Callbacks {
 
     private lateinit var linearLayout: LinearLayout
-    private var isHome = true
+    private var currentFragment: String? = null
 
     private var homeFragment: Fragment? = null
     private var searchFragment: Fragment? = null
@@ -50,29 +50,32 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                if (isHome){return@OnNavigationItemSelectedListener true}
+                if (currentFragment == Commons.HOME){return@OnNavigationItemSelectedListener true}
                 changeFragment(homeFragment!!, Commons.COCKTAILS)
-                isHome = true
+                currentFragment = Commons.HOME
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search -> {
+                if (currentFragment == Commons.SEARCH){return@OnNavigationItemSelectedListener true}
                 changeFragment(searchFragment!!, Commons.SEARCH)
-                isHome = false
+                currentFragment = Commons.SEARCH
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorites -> {
+                if (currentFragment == Commons.FAVORITES){return@OnNavigationItemSelectedListener true}
                 changeFragment(favoritesFragment!!, Commons.FAVORITES)
-                isHome = false
+                currentFragment = Commons.FAVORITES
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_info -> {
+                if (currentFragment == Commons.INFO){return@OnNavigationItemSelectedListener true}
                 changeFragment(infoFragment!!, Commons.INFO)
-                isHome = false
+                currentFragment = Commons.INFO
                 return@OnNavigationItemSelectedListener true
             }
             else -> {
                 changeFragment(homeFragment!!, Commons.COCKTAILS)
-                isHome = true
+                currentFragment = Commons.HOME
                 return@OnNavigationItemSelectedListener true
             }
         }
@@ -88,20 +91,6 @@ class MainActivity : AppCompatActivity(), Callbacks {
 
         toolbar!!.title = name
     }
-
-//    override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-//        menuInflater.inflate(R.menu.main_options, menu)
-//        return super.onCreateOptionsMenu(menu)
-//    }
-//
-//    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-//        when (item!!.itemId){
-//            R.id.options_filter -> {
-//
-//            }
-//        }
-//        return super.onOptionsItemSelected(item)
-//    }
 
     override fun onTitleFound(name: String?) {
         toolbar!!.title = name
