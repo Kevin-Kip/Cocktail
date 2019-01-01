@@ -39,6 +39,14 @@ class FragmentFavorite : Fragment(), Callbacks {
         return rootView
     }
 
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        super.onPrepareOptionsMenu(menu)
+        val clearItem: MenuItem? = menu!!.findItem(R.id.clear_favorites)
+        if (favsList.isEmpty()){
+            clearItem!!.isVisible = false
+        }
+    }
+
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
         inflater!!.inflate(R.menu.favorite_options, menu)
@@ -51,6 +59,7 @@ class FragmentFavorite : Fragment(), Callbacks {
                 return true
             }
         }
+        activity!!.invalidateOptionsMenu()
         return super.onOptionsItemSelected(item)
     }
 
@@ -68,5 +77,4 @@ class FragmentFavorite : Fragment(), Callbacks {
         favsList = favoritesDao!!.getFavs()
         favsAdapter!!.setItems(favsList)
     }
-
 }
