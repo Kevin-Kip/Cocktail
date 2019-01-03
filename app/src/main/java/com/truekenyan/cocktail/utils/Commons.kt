@@ -26,4 +26,6 @@ object Commons {
     const val RANDOM = "Random"
     const val USE_NAME = "use-name"
     const val HOME = "Home"
+    const val CACHE_DIR = "/Cocktail/"
+    const val CACHE_FILE_NAME = ""
 }

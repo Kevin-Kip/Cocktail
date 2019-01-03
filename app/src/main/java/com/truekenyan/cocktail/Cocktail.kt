@@ -2,25 +2,20 @@ package com.truekenyan.cocktail
 
 import android.app.Application
 import android.content.Intent
+import android.content.Intent.FLAG_ACTIVITY_CLEAR_TASK
+import android.content.Intent.FLAG_ACTIVITY_NEW_TASK
 import com.truekenyan.cocktail.activities.MainActivity
+import com.truekenyan.cocktail.activities.WelcomeActivity
+import com.truekenyan.cocktail.utils.PrefManager
 
 class Cocktail : Application() {
     override fun onCreate() {
         super.onCreate()
-        val i = Intent(this@Cocktail, MainActivity::class.java).apply {
-            flags = Intent.FLAG_ACTIVITY_NEW_TASK
+        val i = when(PrefManager(applicationContext).hasLaunched()) {
+            true -> Intent(this@Cocktail, MainActivity::class.java)
+            else -> Intent(this@Cocktail, WelcomeActivity::class.java)
         }
+        i.flags = FLAG_ACTIVITY_CLEAR_TASK.or(FLAG_ACTIVITY_NEW_TASK)
         startActivity(i)
-//        if (PrefManager(applicationContext).hasLaunched()){
-//            val i = Intent(this@Cocktail, MainActivity::class.java).apply {
-//                flags = FLAG_ACTIVITY_NEW_TASK
-//            }
-//            startActivity(i)
-//        } else {
-//            val i = Intent(this@Cocktail, WelcomeActivity::class.java).apply {
-//                flags = FLAG_ACTIVITY_NEW_TASK
-//            }
-//            startActivity(i)
-//        }
     }
 }
