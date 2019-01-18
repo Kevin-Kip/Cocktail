@@ -1,6 +1,7 @@
 package com.truekenyan.cocktail.fragments
 
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -23,7 +24,9 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
+import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -57,6 +60,17 @@ class FragmentSearch : Fragment() {
             layoutManager = GridLayoutManager(context, 2)
             itemAnimator = DefaultItemAnimator()
         }
+        return rootView
+    }
+
+    private fun initViews(rootView: View){
+        searchList = rootView.findViewById(R.id.search_list)
+        searchInput = rootView.findViewById(R.id.input_word)
+        clearButton = rootView.findViewById(R.id.button_clear)
+        searchButton = rootView.findViewById(R.id.button_search)
+        progressBar = rootView.findViewById(R.id.progress_bar)
+        noResults = rootView.findViewById(R.id.no_results)
+        prefManager = PrefManager(context!!)
 
         searchInput!!.setOnFocusChangeListener { v, hasFocus ->
             if (hasFocus)v.isEnabled
@@ -72,31 +86,15 @@ class FragmentSearch : Fragment() {
         clearButton!!.setOnClickListener {
             searchInput!!.text.clear()
         }
-
-        return rootView
-    }
-
-    private fun initViews(rootView: View){
-        searchList = rootView.findViewById(R.id.search_list)
-        searchInput = rootView.findViewById(R.id.input_word)
-        clearButton = rootView.findViewById(R.id.button_clear)
-        searchButton = rootView.findViewById(R.id.button_search)
-        progressBar = rootView.findViewById(R.id.progress_bar)
-        noResults = rootView.findViewById(R.id.no_results)
-        prefManager = PrefManager(context!!)
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val menuIngredient = menu?.findItem(R.id.search_ingredient)
         val menuName = menu?.findItem(R.id.search_name)
-        when (prefManager!!.searchByName()){
-            true -> {
-                menuName!!.isChecked = true
-            }
-            else -> {
-                menuIngredient!!.isChecked = true
-            }
+        when {
+            prefManager!!.searchByName() -> menuName!!.isChecked = true
+            else -> menuIngredient!!.isChecked = true
         }
     }
 
@@ -190,6 +188,12 @@ class FragmentSearch : Fragment() {
                     Log.e("FETCHING", it!!.message)
                 })
 
-        requestQueue!!.add(jsonObjectRequest)
+        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) {
+            requestQueue!!.add(jsonObjectRequest)
+        } else {
+            Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("DISMISS"){}
+                    .show()
+        }
     }
 }
