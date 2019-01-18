@@ -2,6 +2,7 @@ package com.truekenyan.cocktail.fragments
 
 import android.content.Context
 import android.os.Bundle
+import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
@@ -21,7 +22,9 @@ import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
+import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
+import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -150,7 +153,13 @@ class FragmentHome : Fragment() {
                     Log.e("FETCHING", it.message)
                 })
 
-        requestQueue!!.add(jsonObjectRequest)
+        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) {
+            requestQueue!!.add(jsonObjectRequest)
+        } else {
+            Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
+                    .setAction("DISMISS"){}
+                    .show()
+        }
     }
 
     private fun sortList(){
