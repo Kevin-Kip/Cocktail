@@ -27,5 +27,6 @@ object Commons {
     const val USE_NAME = "use-name"
     const val HOME = "Home"
     const val CACHE_DIR = "/Cocktail/"
-    const val CACHE_FILE_NAME = ""
+    const val ALCOHOLIC_CACHE = "alcoholic.json"
+    const val NON_ALCOHOLIC_CACHE = "non-alcoholic.json"
 }
