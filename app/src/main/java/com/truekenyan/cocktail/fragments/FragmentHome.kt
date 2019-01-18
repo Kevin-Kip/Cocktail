@@ -21,6 +21,7 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.utils.CacheManager
 import com.truekenyan.cocktail.utils.Commons
 import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
@@ -37,6 +38,7 @@ class FragmentHome : Fragment() {
     private var requestQueue: RequestQueue? = null
     private var listener: Callbacks? = null
     private var prefManager: PrefManager? = null
+    private lateinit var fileName: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -105,6 +107,10 @@ class FragmentHome : Fragment() {
                 sortList()
             }
         }
+        fileName = when(prefManager!!.isAlcoholic()){
+            true -> Commons.ALCOHOLIC_CACHE
+            else -> Commons.NON_ALCOHOLIC_CACHE
+        }
         activity!!.invalidateOptionsMenu()
         return super.onOptionsItemSelected(item)
     }
@@ -135,21 +141,18 @@ class FragmentHome : Fragment() {
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
                 drinkUrl,
                 JSONObject(),
-                Response.Listener {
+                Response.Listener {response ->
                     progressBar.visibility = View.GONE
                     homeList.visibility = View.VISIBLE
-                    val jsonArray = it.getJSONArray(Commons.DRINKS) as JSONArray
-                    for (i in 0 until (jsonArray.length() - 1)){
-                        val o = jsonArray[i] as JSONObject
-                        val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
-                        if (!cocktails.contains(cockTail)) {
-                            cocktails.add(cockTail)
-                        }
+                    parseJson(response.toString())
+                    CacheManager(context!!).apply {
+                        clearCache()
+                        writeToCache(fileName, response.toString())
                     }
-                    sortList()
                 },
                 Response.ErrorListener {
                     Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
+                    readFromCache()
                     Log.e("FETCHING", it.message)
                 })
 
@@ -159,7 +162,26 @@ class FragmentHome : Fragment() {
             Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
                     .setAction("DISMISS"){}
                     .show()
+            readFromCache()
         }
+    }
+
+    private fun readFromCache() {
+        val result: String? = CacheManager(context!!).readJsonFile(fileName)
+        parseJson(result)
+    }
+
+    private fun parseJson(result: String?) {
+        val response = JSONObject(result)
+        val jsonArray = response.getJSONArray(Commons.DRINKS) as JSONArray
+        for (i in 0 until (jsonArray.length() - 1)){
+            val o = jsonArray[i] as JSONObject
+            val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
+            if (!cocktails.contains(cockTail)) {
+                cocktails.add(cockTail)
+            }
+        }
+        sortList()
     }
 
     private fun sortList(){
