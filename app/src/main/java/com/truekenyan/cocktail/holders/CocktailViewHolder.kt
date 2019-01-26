@@ -6,16 +6,16 @@ import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.CardView
 import android.support.v7.widget.RecyclerView
 import android.view.View
-import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.ui.activities.CocktailActivity
+import com.truekenyan.cocktail.ui.custom.SquareImageView
 import com.truekenyan.cocktail.utils.Commons
 
 class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-    private val imageView = itemView.findViewById<ImageView>(R.id.cocktail_image)
+    private val imageView = itemView.findViewById<SquareImageView>(R.id.cocktail_image)
     private val cocktailName = itemView.findViewById<TextView>(R.id.cocktail_name)
     private val mainPanel = itemView.findViewById<ConstraintLayout>(R.id.parentPanel)
     private val mainParent = itemView.findViewById<CardView>(R.id.main_parent)
