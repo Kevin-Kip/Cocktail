@@ -7,8 +7,9 @@ import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.view.*
 import android.widget.Toast
+import com.revosleap.simpleadapter.SimpleAdapter
+import com.revosleap.simpleadapter.SimpleCallbacks
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.adapters.FavoritesAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.callbacks.CocktailDao
 import com.truekenyan.cocktail.database.AppDatabase
@@ -16,17 +17,30 @@ import com.truekenyan.cocktail.models.Fav
 
 class FragmentFavorite : Fragment(), Callbacks {
 
-    private var favsList = mutableListOf<Fav?>()
+    private var favsList = mutableListOf<Any>()
     private var favs: RecyclerView? = null
-    private var favsAdapter: FavoritesAdapter? = null
+    private var favsAdapter: SimpleAdapter? = null
     private var favoritesDb: AppDatabase? = null
     private var favoritesDao: CocktailDao? = null
+    private val callbacks = object : SimpleCallbacks {
+        override fun bindView(view: View, item: Any, position: Int) {
+
+        }
+
+        override fun onViewClicked(view: View, item: Any, position: Int) {
+
+        }
+
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {
+
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_favs, container, false)
         favoritesDb = AppDatabase.getInstance(context)
         favs = rootView.findViewById(R.id.favs_list)
-        favsAdapter = FavoritesAdapter(context!!, favsList)
+        favsAdapter = SimpleAdapter(R.layout.item_fav, callbacks)
         setHasOptionsMenu(true)
         refreshFavs()
         favs!!.apply {
@@ -35,7 +49,7 @@ class FragmentFavorite : Fragment(), Callbacks {
             itemAnimator = DefaultItemAnimator()
             layoutManager = LinearLayoutManager(context)
         }
-        favsAdapter!!.setItems(favsList)
+        favsAdapter!!.changeItems(favsList)
         return rootView
     }
 
@@ -75,6 +89,6 @@ class FragmentFavorite : Fragment(), Callbacks {
     private fun refreshFavs(){
         favoritesDao = favoritesDb!!.coctailDao()
         favsList = favoritesDao!!.getFavs()
-        favsAdapter!!.setItems(favsList)
+        favsAdapter!!.changeItems(favsList)
     }
 }

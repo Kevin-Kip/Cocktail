@@ -11,7 +11,7 @@ import com.truekenyan.cocktail.utils.Commons
 interface CocktailDao {
 
     @Query("SELECT * FROM ${Commons.DRINKS} ORDER BY ${Commons.FAV_ID} DESC")
-    fun getFavs(): MutableList<Fav?>
+    fun getFavs(): MutableList<Any>
 
     @Insert
     fun addToFavs(drink: Fav?)
