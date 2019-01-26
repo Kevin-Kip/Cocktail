@@ -1,5 +1,6 @@
 package com.truekenyan.cocktail.ui.fragments
 
+import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
@@ -9,11 +10,15 @@ import android.view.*
 import android.widget.Toast
 import com.revosleap.simpleadapter.SimpleAdapter
 import com.revosleap.simpleadapter.SimpleCallbacks
+import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.callbacks.CocktailDao
 import com.truekenyan.cocktail.database.AppDatabase
 import com.truekenyan.cocktail.models.Fav
+import com.truekenyan.cocktail.ui.activities.CocktailActivity
+import com.truekenyan.cocktail.utils.Commons
+import kotlinx.android.synthetic.main.item_fav.view.*
 
 class FragmentFavorite : Fragment(), Callbacks {
 
@@ -24,15 +29,28 @@ class FragmentFavorite : Fragment(), Callbacks {
     private var favoritesDao: CocktailDao? = null
     private val callbacks = object : SimpleCallbacks {
         override fun bindView(view: View, item: Any, position: Int) {
+            item as Fav
+            val drinkImage = view.fav_image
+            val drinkName = view.fav_name
 
+            Picasso.get()
+                    .load(item.drinkPhoto)
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.error)
+                    .into(drinkImage)
+            drinkName.text = item.drinkName
         }
 
         override fun onViewClicked(view: View, item: Any, position: Int) {
-
+            item as Fav
+            val i = Intent(context, CocktailActivity::class.java).apply {
+                putExtra(Commons.DRINK_ID, item.drinkId)
+            }
+            context!!.startActivity(i)
         }
 
         override fun onViewLongClicked(it: View?, item: Any, position: Int) {
-
+//TODO remove item dialog
         }
     }
 

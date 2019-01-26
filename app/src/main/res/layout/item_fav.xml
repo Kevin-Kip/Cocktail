@@ -30,19 +30,6 @@
         android:textStyle="bold"
         android:alpha="0.8"/>
 
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/ic_delete"
-        android:padding="@dimen/dimen_10dp"
-        app:layout_constraintBottom_toTopOf="@id/separator"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        android:layout_margin="@dimen/dimen_10dp"
-        android:contentDescription="@string/app_name"
-        android:id="@+id/remove_fav"
-        android:background="?attr/selectableItemBackground"/>
-
     <View
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="@dimen/dimen_1dp"
