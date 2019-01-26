@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.fragments
+package com.truekenyan.cocktail.ui.fragments
 
 import android.content.Context
 import android.os.Bundle

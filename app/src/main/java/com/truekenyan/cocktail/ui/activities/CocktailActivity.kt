@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.activities
+package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
@@ -8,6 +8,7 @@ import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.Log
+import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
@@ -17,10 +18,10 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import com.revosleap.simpleadapter.SimpleAdapter
+import com.revosleap.simpleadapter.SimpleCallbacks
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.adapters.CocktailAdapter
-import com.truekenyan.cocktail.adapters.IngredientsAdapter
 import com.truekenyan.cocktail.callbacks.CocktailDao
 import com.truekenyan.cocktail.database.AppDatabase
 import com.truekenyan.cocktail.models.CocktailModel
@@ -28,18 +29,19 @@ import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.models.Ingredient
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_cock_tail.*
+import kotlinx.android.synthetic.main.item_home_list.view.*
+import kotlinx.android.synthetic.main.item_ingredients.view.*
 import org.json.JSONObject
 import java.util.*
 
 class CocktailActivity : AppCompatActivity() {
 
-    private var ingredients = mutableListOf<Ingredient>()
-    private var suggestions = mutableListOf<CocktailModel>()
+    private var ingredients = mutableListOf<Any>()
     private var drinkId: Int? = null
     private var i: Intent? = null
     private var cockTail: CocktailModel? = null
-    private lateinit var ingredientsAdapter: IngredientsAdapter
-    private lateinit var cocktailAdapter: CocktailAdapter
+    private lateinit var ingredientsAdapter: SimpleAdapter
+    private lateinit var cocktailAdapter: SimpleAdapter
     private lateinit var cocktailImage: ImageView
     private lateinit var methodText: TextView
     private lateinit var ingredientsRecycler: RecyclerView
@@ -50,6 +52,45 @@ class CocktailActivity : AppCompatActivity() {
     private var favoritesDb: AppDatabase? = null
     private var favoritesDao: CocktailDao? = null
     private var isFavorite: Boolean? = false
+    private var ingredientsCallback = object : SimpleCallbacks {
+        override fun bindView(view: View, item: Any, position: Int) {
+            item as Ingredient
+            val name = view.ingredient
+            val i = (item.measure)!!.trim() + " "+ item.name
+            name.text = i
+        }
+
+        override fun onViewClicked(view: View, item: Any, position: Int) {}
+
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {}
+    }
+    private val suggestedCallback = object : SimpleCallbacks {
+        override fun bindView(view: View, item: Any, position: Int) {
+            item as CocktailModel
+            val imageView = view.cocktail_image
+            val cocktailName = view.cocktail_name
+
+            Picasso.get()
+                    .load(item.strDrinkThumb)
+                    .resize(250, 250)
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView)
+            cocktailName.text = item.strDrink
+        }
+
+        override fun onViewClicked(view: View, item: Any, position: Int) {
+            item as CocktailModel
+//            val i = Intent(this@CocktailActivity, CocktailActivity::class.java).apply {
+//                putExtra(Commons.DRINK_ID, item.idDrink)
+//                putExtra(Commons.COCKTAILS, suggestions as ArrayList)
+//            }
+//            startActivity(i)
+        }
+
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {
+
+        }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -69,8 +110,8 @@ class CocktailActivity : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue(this@CocktailActivity)
         getDetails(fullURL)
 
-        ingredientsAdapter = IngredientsAdapter(this@CocktailActivity,ingredients)
-        cocktailAdapter = CocktailAdapter(this@CocktailActivity, suggestions, false)
+        ingredientsAdapter = SimpleAdapter( R.layout.item_ingredients, ingredientsCallback)
+        cocktailAdapter = SimpleAdapter(R.layout.item_home_list, suggestedCallback)
         ingredientsRecycler.apply {
             adapter = ingredientsAdapter
             hasFixedSize()
@@ -135,10 +176,11 @@ class CocktailActivity : AppCompatActivity() {
                     }
 
                     method.text = (cockTail!!.strInstructions)!!.replace(". ", ".\n")
-                    ingredientsAdapter.setIngredients(ingredients)
+                    ingredientsAdapter.changeItems(ingredients)
                     Picasso.get()
                             .load(cockTail!!.strDrinkThumb)
                             .placeholder(R.drawable.placeholder)
+                            .error(R.drawable.error)
                             .into(cocktail_image)
                     collapsing_toolbar.title = cockTail!!.strDrink
                     favoriteImage!!.isEnabled = true
@@ -162,7 +204,7 @@ class CocktailActivity : AppCompatActivity() {
     }
 
     private fun getMore(currentId: String?, list: ArrayList<CocktailModel>){
-        val newList = mutableListOf<CocktailModel>()
+        val newList = mutableListOf<Any>()
         for (i in 1..list.size) {
             for (item in list) {
                 if (item.idDrink != currentId) {
@@ -170,6 +212,6 @@ class CocktailActivity : AppCompatActivity() {
                 }
             }
         }
-        cocktailAdapter.setItems(newList)
+        cocktailAdapter.changeItems(newList)
     }
 }

@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.activities
+package com.truekenyan.cocktail.ui.activities
 
 import android.os.Build
 import android.os.Bundle
@@ -11,10 +11,10 @@ import android.widget.LinearLayout
 import android.widget.Toast
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
-import com.truekenyan.cocktail.fragments.FragmentFavorite
-import com.truekenyan.cocktail.fragments.FragmentHome
-import com.truekenyan.cocktail.fragments.FragmentInfo
-import com.truekenyan.cocktail.fragments.FragmentSearch
+import com.truekenyan.cocktail.ui.fragments.FragmentFavorite
+import com.truekenyan.cocktail.ui.fragments.FragmentHome
+import com.truekenyan.cocktail.ui.fragments.FragmentInfo
+import com.truekenyan.cocktail.ui.fragments.FragmentSearch
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_main.*
 

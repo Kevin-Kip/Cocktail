@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.fragments
+package com.truekenyan.cocktail.ui.fragments
 
 import android.os.Bundle
 import android.support.design.widget.Snackbar

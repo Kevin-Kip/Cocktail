@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.activities
+package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle

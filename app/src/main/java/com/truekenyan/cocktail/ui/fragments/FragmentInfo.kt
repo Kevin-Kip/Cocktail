@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.fragments
+package com.truekenyan.cocktail.ui.fragments
 
 import android.content.Intent
 import android.content.Intent.ACTION_SEND
