@@ -1,4 +1,4 @@
-package com.truekenyan.cocktail.custom
+package com.truekenyan.cocktail.ui.custom
 
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity

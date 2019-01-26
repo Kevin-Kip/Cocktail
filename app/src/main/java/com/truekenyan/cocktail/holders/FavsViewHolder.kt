@@ -8,7 +8,7 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.activities.CocktailActivity
+import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.utils.Commons

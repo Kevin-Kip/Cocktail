@@ -15,16 +15,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activities.MainActivity">
+        <activity android:name="com.truekenyan.cocktail.ui.activities.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".activities.WelcomeActivity" />
-        <activity android:name=".activities.CocktailActivity"
-            android:parentActivityName=".activities.MainActivity"/>
+        <activity android:name="com.truekenyan.cocktail.ui.activities.WelcomeActivity" />
+        <activity android:name="com.truekenyan.cocktail.ui.activities.CocktailActivity"
+            android:parentActivityName="com.truekenyan.cocktail.ui.activities.MainActivity"/>
     </application>
 
 </manifest>

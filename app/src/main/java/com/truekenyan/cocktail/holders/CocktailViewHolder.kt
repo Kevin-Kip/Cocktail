@@ -10,8 +10,8 @@ import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.activities.CocktailActivity
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.utils.Commons
 
 class CocktailViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
