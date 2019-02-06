@@ -48,7 +48,7 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var moreRecyclerView: RecyclerView
     private var requestQueue: RequestQueue? = null
     private var favoriteImage: ImageView? = null
-    private var favorites = mutableListOf<Fav?>()
+    private var favorites = mutableListOf<Any>()
     private var favoritesDb: AppDatabase? = null
     private var favoritesDao: CocktailDao? = null
     private var isFavorite: Boolean? = false
@@ -186,7 +186,8 @@ class CocktailActivity : AppCompatActivity() {
                     favoriteImage!!.isEnabled = true
                     tag.text = cockTail!!.strAlcoholic
                     for (fav in favorites){
-                        if (fav!!.drinkId == (cockTail!!.idDrink)){
+                        fav as Fav
+                        if (fav.drinkId == (cockTail!!.idDrink)){
                             favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
                             isFavorite = true
                             break

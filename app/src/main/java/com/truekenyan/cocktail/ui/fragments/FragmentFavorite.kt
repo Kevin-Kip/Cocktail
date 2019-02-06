@@ -39,6 +39,8 @@ class FragmentFavorite : Fragment(), Callbacks {
                     .error(R.drawable.error)
                     .into(drinkImage)
             drinkName.text = item.drinkName
+
+            (view.remove).setOnClickListener(removeItem(item))
         }
 
         override fun onViewClicked(view: View, item: Any, position: Int) {
@@ -51,6 +53,13 @@ class FragmentFavorite : Fragment(), Callbacks {
 
         override fun onViewLongClicked(it: View?, item: Any, position: Int) {
 //TODO remove item dialog
+        }
+    }
+
+    private fun removeItem(item: Fav): View.OnClickListener? {
+        return View.OnClickListener {
+            favoritesDao!!.removeFromFavs(item)
+            refreshFavs()
         }
     }
 
