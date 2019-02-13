@@ -48,6 +48,10 @@ class FragmentHome : Fragment() {
         requestQueue = Volley.newRequestQueue(context)
         prefManager = PrefManager(context!!.applicationContext)
 
+        fileName = when(prefManager!!.isAlcoholic()){
+            true -> Commons.ALCOHOLIC_CACHE
+            else -> Commons.NON_ALCOHOLIC_CACHE
+        }
         setHasOptionsMenu(true)
         fetchDrinks()
 
@@ -65,10 +69,10 @@ class FragmentHome : Fragment() {
         val randomItem = menu?.findItem(R.id.random)
         val ascItem = menu?.findItem(R.id.ascending)
         val descItem = menu?.findItem(R.id.descending)
-        when {
-            prefManager!!.getOrder() == Commons.RANDOM -> randomItem!!.isChecked = true
-            prefManager!!.getOrder() == Commons.ASCENDING -> ascItem!!.isChecked = true
-            prefManager!!.getOrder() == Commons.DESCENDING -> descItem!!.isChecked = true
+        when (prefManager!!.getOrder()) {
+            Commons.RANDOM -> randomItem!!.isChecked = true
+            Commons.ASCENDING -> ascItem!!.isChecked = true
+            Commons.DESCENDING -> descItem!!.isChecked = true
         }
 
         val alcoholic = menu?.findItem(R.id.alcoholic)
@@ -107,10 +111,6 @@ class FragmentHome : Fragment() {
                 sortList()
             }
         }
-        fileName = when(prefManager!!.isAlcoholic()){
-            true -> Commons.ALCOHOLIC_CACHE
-            else -> Commons.NON_ALCOHOLIC_CACHE
-        }
         activity!!.invalidateOptionsMenu()
         return super.onOptionsItemSelected(item)
     }
@@ -145,10 +145,10 @@ class FragmentHome : Fragment() {
                     progressBar.visibility = View.GONE
                     homeList.visibility = View.VISIBLE
                     parseJson(response.toString())
-                    CacheManager(context!!).apply {
-                        clearCache()
-                        writeToCache(fileName, response.toString())
-                    }
+                    val cm = CacheManager(context!!)
+                    cm.clearCache()
+                    cm.writeToCache(fileName, response.toString())
+
                 },
                 Response.ErrorListener {
                     Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
