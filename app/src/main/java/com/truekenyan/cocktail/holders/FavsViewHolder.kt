@@ -4,19 +4,20 @@ import android.content.Intent
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.RecyclerView
 import android.view.View
+import android.widget.ImageButton
 import android.widget.ImageView
 import android.widget.TextView
 import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.Fav
+import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.utils.Commons
 
 class FavsViewHolder(itemView: View): RecyclerView.ViewHolder(itemView) {
     private val parent: ConstraintLayout = itemView.findViewById(R.id.fav_parent)
     private val drinkImage: ImageView = itemView.findViewById(R.id.fav_image)
-    private val deleteIcon: ImageView = itemView.findViewById(R.id.remove_fav)
+    private val deleteIcon: ImageButton = itemView.findViewById(R.id.remove)
     private val drinkName: TextView = itemView.findViewById(R.id.fav_name)
     private var favoriteName: String? = null
     private var listener: Callbacks? = itemView.context as Callbacks
