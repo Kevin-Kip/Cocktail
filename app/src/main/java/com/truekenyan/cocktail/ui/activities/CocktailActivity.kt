@@ -142,7 +142,7 @@ class CocktailActivity : AppCompatActivity() {
             isFavorite = true
         }
 
-        favorites = favoritesDao!!.getFavs()
+        favorites = favoritesDao!!.getFavs() as MutableList<Any>
     }
 
     private fun initViews(){

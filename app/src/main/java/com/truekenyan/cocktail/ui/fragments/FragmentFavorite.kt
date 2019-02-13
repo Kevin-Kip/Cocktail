@@ -115,7 +115,7 @@ class FragmentFavorite : Fragment(), Callbacks {
 
     private fun refreshFavs(){
         favoritesDao = favoritesDb!!.coctailDao()
-        favsList = favoritesDao!!.getFavs()
+        favsList = favoritesDao!!.getFavs() as MutableList<Any>
         favsAdapter!!.changeItems(favsList)
     }
 }
