@@ -40,9 +40,9 @@ The app is coming soon ...
   
 <h3 id="look"> Look and Feel</h3>
   
-<img src="art/device1.png" width="250"> <img src="art/device2.png" width="250">  
-<img src="art/device3.png" width="250"> <img src="art/device4.png" width="250">  
-<img src="art/device5.png" width="250"> <img src="art/device6.png" width="250">  
+<img src="art/screenshot1.png" width="250"> <img src="art/screenshot2.png" width="250">  
+<img src="art/screenshot3.png" width="250"> <img src="art/screenshot4.png" width="250">  
+<img src="art/screenshot5.png" width="250"> <img src="art/screenshot6.png" width="250">  
   
   <h3 id="credits">Credits</h3>
   
