@@ -21,7 +21,6 @@ import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
-import com.truekenyan.cocktail.utils.CacheManager
 import com.truekenyan.cocktail.utils.Commons
 import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
@@ -145,14 +144,10 @@ class FragmentHome : Fragment() {
                     progressBar.visibility = View.GONE
                     homeList.visibility = View.VISIBLE
                     parseJson(response.toString())
-                    val cm = CacheManager(context!!)
-                    cm.clearCache()
-                    cm.writeToCache(fileName, response.toString())
 
                 },
                 Response.ErrorListener {
                     Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
-                    readFromCache()
                     Log.e("FETCHING", it.message)
                 })
 
@@ -162,13 +157,7 @@ class FragmentHome : Fragment() {
             Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
                     .setAction("DISMISS"){}
                     .show()
-            readFromCache()
         }
-    }
-
-    private fun readFromCache() {
-        val result: String? = CacheManager(context!!).readJsonFile(fileName)
-        parseJson(result)
     }
 
     private fun parseJson(result: String?) {
