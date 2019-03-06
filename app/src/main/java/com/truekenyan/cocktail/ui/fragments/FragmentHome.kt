@@ -37,7 +37,6 @@ class FragmentHome : Fragment() {
     private var requestQueue: RequestQueue? = null
     private var listener: Callbacks? = null
     private var prefManager: PrefManager? = null
-    private lateinit var fileName: String
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
@@ -47,10 +46,6 @@ class FragmentHome : Fragment() {
         requestQueue = Volley.newRequestQueue(context)
         prefManager = PrefManager(context!!.applicationContext)
 
-        fileName = when(prefManager!!.isAlcoholic()){
-            true -> Commons.ALCOHOLIC_CACHE
-            else -> Commons.NON_ALCOHOLIC_CACHE
-        }
         setHasOptionsMenu(true)
         fetchDrinks()
 
@@ -127,37 +122,27 @@ class FragmentHome : Fragment() {
     }
 
     private fun fetchDrinks(){
-        val drinkUrl: String? = when(prefManager!!.isAlcoholic()) {
-            true -> Commons.URL_ALCOHOLIC
-            else -> Commons.URL_NON_ALCOHOLIC
-        }
-
+        val drinkUrl: String? = if (prefManager!!.isAlcoholic()) Commons.URL_ALCOHOLIC else Commons.URL_NON_ALCOHOLIC
         progressBar.visibility = View.VISIBLE
         homeList.visibility = View.GONE
         cocktails.clear()
         getTitle()
 
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET,
-                drinkUrl,
-                JSONObject(),
+        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, drinkUrl, JSONObject(),
                 Response.Listener {response ->
                     progressBar.visibility = View.GONE
                     homeList.visibility = View.VISIBLE
                     parseJson(response.toString())
-
                 },
                 Response.ErrorListener {
                     Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
                     Log.e("FETCHING", it.message)
                 })
 
-        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) {
-            requestQueue!!.add(jsonObjectRequest)
-        } else {
-            Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
+        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) requestQueue!!.add(jsonObjectRequest)
+        else Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
                     .setAction("DISMISS"){}
                     .show()
-        }
     }
 
     private fun parseJson(result: String?) {
@@ -166,9 +151,7 @@ class FragmentHome : Fragment() {
         for (i in 0 until (jsonArray.length() - 1)){
             val o = jsonArray[i] as JSONObject
             val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
-            if (!cocktails.contains(cockTail)) {
-                cocktails.add(cockTail)
-            }
+            if (!cocktails.contains(cockTail)) cocktails.add(cockTail)
         }
         sortList()
     }

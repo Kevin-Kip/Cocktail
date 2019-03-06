@@ -27,7 +27,7 @@ It is powered [the cocktail db](https://thecocktaildb.com) API which can be acce
 >You get it :smiley:   
 <h3 id="download"> Download</h3>
   
-The app is coming soon ...  
+Download the app [here](/apk/Cocktail.apk)  
   
 <h3 id="goals"> Goals</h3>  
 
