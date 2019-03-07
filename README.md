@@ -27,7 +27,7 @@ It is powered [the cocktail db](https://thecocktaildb.com) API which can be acce
 >You get it :smiley:   
 <h3 id="download"> Download</h3>
   
-Download the app [here](/apk/Cocktail.apk)  
+Download the app [here](https://github.com/Kevin-Kip/Cocktail/raw/master/apk/Cocktail.apk)  
   
 <h3 id="goals"> Goals</h3>  
 
@@ -35,8 +35,7 @@ Download the app [here](/apk/Cocktail.apk)
 - [x] Search drinks  
 - [x] Filter drinks by category and order {ASC and DESC}  
 - [x] Save Favorites  
-- [x] Network Connectivity check  
-- [x] Caching for offline access    
+- [x] Network Connectivity check    
   
 <h3 id="look"> Look and Feel</h3>
   
