@@ -17,14 +17,17 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import com.revosleap.simpleadapter.SimpleAdapter
+import com.revosleap.simpleadapter.SimpleCallbacks
+import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
 import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
 import kotlinx.android.synthetic.main.activity_main.*
+import kotlinx.android.synthetic.main.item_home_list.view.*
 import org.json.JSONArray
 import org.json.JSONObject
 
@@ -32,17 +35,39 @@ class FragmentHome : Fragment() {
 
     private lateinit var progressBar: ProgressBar
     private lateinit var homeList: RecyclerView
-    private lateinit var cocktailAdapter: CocktailAdapter
+    private lateinit var cocktailAdapter: SimpleAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
     private var listener: Callbacks? = null
     private var prefManager: PrefManager? = null
+    private val simpleCallbacks: SimpleCallbacks = object : SimpleCallbacks {
+        override fun bindView(view: View, item: Any, position: Int) {
+            item as CocktailModel
+
+            val imageView = view.cocktail_image
+            val cocktailName = view.cocktail_name
+            Picasso.get()
+                    .load(item.strDrinkThumb)
+                    .fit()
+                    .placeholder(R.drawable.placeholder)
+                    .into(imageView)
+            cocktailName.text = item.strDrink
+        }
+
+        override fun onViewClicked(view: View, item: Any, position: Int) {
+
+        }
+
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {
+
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_home, container, false)
         progressBar = rootView.findViewById(R.id.progress_bar)
         homeList = rootView.findViewById(R.id.home_list)
-        cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
+        cocktailAdapter = SimpleAdapter(R.layout.item_home_list, simpleCallbacks)
         requestQueue = Volley.newRequestQueue(context)
         prefManager = PrefManager(context!!.applicationContext)
 
@@ -71,7 +96,7 @@ class FragmentHome : Fragment() {
 
         val alcoholic = menu?.findItem(R.id.alcoholic)
         val nonAlcoholic = menu?.findItem(R.id.non_alcoholic)
-        when (prefManager!!.isAlcoholic()){
+        when (prefManager!!.isAlcoholic()) {
             true -> alcoholic!!.isChecked = true
             else -> nonAlcoholic!!.isChecked = true
         }
@@ -83,7 +108,7 @@ class FragmentHome : Fragment() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){
+        when (item!!.itemId) {
             R.id.alcoholic -> {
                 prefManager!!.setAlcoholic(true)
                 fetchDrinks()
@@ -114,14 +139,14 @@ class FragmentHome : Fragment() {
         listener = context as Callbacks
     }
 
-    private fun getTitle(){
+    private fun getTitle() {
         when {
             prefManager!!.isAlcoholic() -> listener!!.onTitleFound(Commons.ALCOHOLIC)
             else -> listener!!.onTitleFound(Commons.NON_ALCOHOLIC)
         }
     }
 
-    private fun fetchDrinks(){
+    private fun fetchDrinks() {
         val drinkUrl: String? = if (prefManager!!.isAlcoholic()) Commons.URL_ALCOHOLIC else Commons.URL_NON_ALCOHOLIC
         progressBar.visibility = View.VISIBLE
         homeList.visibility = View.GONE
@@ -129,7 +154,7 @@ class FragmentHome : Fragment() {
         getTitle()
 
         val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, drinkUrl, JSONObject(),
-                Response.Listener {response ->
+                Response.Listener { response ->
                     progressBar.visibility = View.GONE
                     homeList.visibility = View.VISIBLE
                     parseJson(response.toString())
@@ -141,14 +166,14 @@ class FragmentHome : Fragment() {
 
         if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) requestQueue!!.add(jsonObjectRequest)
         else Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
-                    .setAction("DISMISS"){}
-                    .show()
+                .setAction("DISMISS") {}
+                .show()
     }
 
     private fun parseJson(result: String?) {
         val response = JSONObject(result)
         val jsonArray = response.getJSONArray(Commons.DRINKS) as JSONArray
-        for (i in 0 until (jsonArray.length() - 1)){
+        for (i in 0 until (jsonArray.length() - 1)) {
             val o = jsonArray[i] as JSONObject
             val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
             if (!cocktails.contains(cockTail)) cocktails.add(cockTail)
@@ -156,12 +181,12 @@ class FragmentHome : Fragment() {
         sortList()
     }
 
-    private fun sortList(){
+    private fun sortList() {
         when {
             prefManager!!.getOrder() == Commons.ASCENDING -> cocktails.sortBy { it.strDrink }
-            prefManager!!.getOrder() == Commons.DESCENDING -> cocktails.sortByDescending {it.strDrink}
+            prefManager!!.getOrder() == Commons.DESCENDING -> cocktails.sortByDescending { it.strDrink }
             else -> cocktails = cocktails.shuffled() as MutableList<CocktailModel>
         }
-        cocktailAdapter.setItems(cocktails)
+        cocktailAdapter.run { addManyItems(cocktails as MutableList<Any>) }
     }
 }

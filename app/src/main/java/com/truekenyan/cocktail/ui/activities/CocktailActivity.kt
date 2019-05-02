@@ -80,11 +80,10 @@ class CocktailActivity : AppCompatActivity() {
 
         override fun onViewClicked(view: View, item: Any, position: Int) {
             item as CocktailModel
-//            val i = Intent(this@CocktailActivity, CocktailActivity::class.java).apply {
-//                putExtra(Commons.DRINK_ID, item.idDrink)
-//                putExtra(Commons.COCKTAILS, suggestions as ArrayList)
-//            }
-//            startActivity(i)
+            val i = Intent(this@CocktailActivity, CocktailActivity::class.java).apply {
+                putExtra(Commons.DRINK_ID, item.idDrink)
+            }
+            startActivity(i)
         }
 
         override fun onViewLongClicked(it: View?, item: Any, position: Int) {

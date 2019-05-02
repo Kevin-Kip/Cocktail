@@ -83,7 +83,7 @@ class FragmentFavorite : Fragment(), Callbacks {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val clearItem: MenuItem? = menu!!.findItem(R.id.clear_favorites)
-        if (favsList.isEmpty()){
+        if (favsList.isEmpty()) {
             clearItem!!.isVisible = false
         }
     }
@@ -94,7 +94,7 @@ class FragmentFavorite : Fragment(), Callbacks {
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){
+        when (item!!.itemId) {
             R.id.clear_favorites -> {
                 favoritesDao!!.clearFavorites()
                 return true
@@ -113,7 +113,7 @@ class FragmentFavorite : Fragment(), Callbacks {
 
     override fun onTitleFound(name: String?) {}
 
-    private fun refreshFavs(){
+    private fun refreshFavs() {
         favoritesDao = favoritesDb!!.coctailDao()
         favsList = favoritesDao!!.getFavs() as MutableList<Any>
         favsAdapter!!.changeItems(favsList)

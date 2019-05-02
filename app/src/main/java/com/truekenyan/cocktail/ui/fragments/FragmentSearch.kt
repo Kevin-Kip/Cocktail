@@ -20,8 +20,9 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
+import com.revosleap.simpleadapter.SimpleAdapter
+import com.revosleap.simpleadapter.SimpleCallbacks
 import com.truekenyan.cocktail.R
-import com.truekenyan.cocktail.adapters.CocktailAdapter
 import com.truekenyan.cocktail.models.CocktailModel
 import com.truekenyan.cocktail.utils.Commons
 import com.truekenyan.cocktail.utils.NetManager
@@ -40,17 +41,30 @@ class FragmentSearch : Fragment() {
     private var keyWord: String? = null
     private var noResults: TextView? = null
     private var searchByName: Boolean? = null
-    private lateinit var cocktailAdapter: CocktailAdapter
+    private lateinit var cocktailAdapter: SimpleAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
     private var prefManager: PrefManager? = null
+    private val simpleCallbacks: SimpleCallbacks = object : SimpleCallbacks {
+        override fun bindView(view: View, item: Any, position: Int) {
+
+        }
+
+        override fun onViewClicked(view: View, item: Any, position: Int) {
+
+        }
+
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {
+
+        }
+    }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
         val rootView = inflater.inflate(R.layout.fragment_search, container, false)
         initViews(rootView)
         setHasOptionsMenu(true)
         searchByName = prefManager!!.searchByName()
-        cocktailAdapter = CocktailAdapter(context!!, cocktails, true)
+        cocktailAdapter = SimpleAdapter(R.layout.item_home_list, simpleCallbacks)
         requestQueue = Volley.newRequestQueue(context)
         searchInput!!.addTextChangedListener(searchListener)
 
@@ -175,7 +189,7 @@ class FragmentSearch : Fragment() {
                             }
                         }
                         cocktails = cocktails.shuffled() as MutableList<CocktailModel>
-                        cocktailAdapter.setItems(cocktails)
+                        cocktailAdapter.addManyItems(cocktails as MutableList<Any>)
                     } else {
                         noResults!!.visibility = View.VISIBLE
                         searchList!!.visibility = View.GONE
