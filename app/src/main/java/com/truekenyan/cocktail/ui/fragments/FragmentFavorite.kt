@@ -83,9 +83,7 @@ class FragmentFavorite : Fragment(), Callbacks {
     override fun onPrepareOptionsMenu(menu: Menu?) {
         super.onPrepareOptionsMenu(menu)
         val clearItem: MenuItem? = menu!!.findItem(R.id.clear_favorites)
-        if (favsList.isEmpty()) {
-            clearItem!!.isVisible = false
-        }
+        if (favsList.isEmpty()) clearItem!!.isVisible = false
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {

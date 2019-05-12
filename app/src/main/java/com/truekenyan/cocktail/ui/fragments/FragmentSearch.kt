@@ -122,18 +122,14 @@ class FragmentSearch : Fragment() {
             R.id.search_ingredient -> {
                 if (prefManager!!.searchByName()) {
                     prefManager!!.setSearchByName(false)
-                    if (keyWord != null) {
-                        fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
-                    }
+                    if (keyWord != null) fetchDrinks(Commons.INGREDIENT_SEARCH + keyWord)
                 }
                 return true
             }
             R.id.search_name -> {
                 if (!prefManager!!.searchByName()) {
                     prefManager!!.setSearchByName(true)
-                    if (keyWord != null) {
-                        fetchDrinks(Commons.NAME_SEARCH + keyWord)
-                    }
+                    if (keyWord != null) fetchDrinks(Commons.NAME_SEARCH + keyWord)
                 }
                 return true
             }

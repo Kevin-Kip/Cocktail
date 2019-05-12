@@ -53,7 +53,7 @@ class FragmentInfo: Fragment() {
                         action = ACTION_SEND
                         putExtra(Intent.EXTRA_TEXT, "Check out this Cocktail app by Kevin. Download from ${Commons.DOWNLOAD_URL}")
                     }
-                    startActivity(Intent.createChooser(i, getString(R.string.share_using)))
+                    startActivity(createChooser(i, getString(R.string.share_using)))
                 }
                 Action.CONTACT -> {
                     val i = Intent(Intent.ACTION_SENDTO).apply {

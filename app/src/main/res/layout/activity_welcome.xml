@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".ui.activities.WelcomeActivity">
 
@@ -22,6 +23,7 @@
         android:id="@+id/skip_button"
         android:background="@android:color/transparent"
         android:text="@string/skip"
+        android:textColor="@android:color/white"
         android:textAllCaps="true"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -33,6 +35,7 @@
         android:id="@+id/next_button"
         android:background="@android:color/transparent"
         android:text="@string/next"
+        android:textColor="@android:color/white"
         android:textAllCaps="true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
