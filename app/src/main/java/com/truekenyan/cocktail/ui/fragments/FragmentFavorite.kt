@@ -52,15 +52,13 @@ class FragmentFavorite : Fragment(), Callbacks {
         }
 
         override fun onViewLongClicked(it: View?, item: Any, position: Int) {
-//TODO remove item dialog
+//         TODO remove item dialog
         }
     }
 
-    private fun removeItem(item: Fav): View.OnClickListener? {
-        return View.OnClickListener {
-            favoritesDao!!.removeFromFavs(item)
-            refreshFavs()
-        }
+    private fun removeItem(item: Fav): View.OnClickListener? = View.OnClickListener {
+        favoritesDao?.removeFromFavs(item)
+        refreshFavs()
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {

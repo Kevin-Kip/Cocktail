@@ -179,9 +179,7 @@ class FragmentSearch : Fragment() {
                             for (i in 0 until (jsonArray.length() - 1)) {
                                 val o = jsonArray[i] as JSONObject
                                 val cockTail = Gson().fromJson(o.toString(), CocktailModel::class.java)
-                                if (!cocktails.contains(cockTail)) {
-                                    cocktails.add(cockTail)
-                                }
+                                if (!cocktails.contains(cockTail)) cocktails.add(cockTail)
                             }
                         }
                         cocktails = cocktails.shuffled() as MutableList<CocktailModel>

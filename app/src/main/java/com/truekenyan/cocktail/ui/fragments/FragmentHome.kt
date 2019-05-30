@@ -1,6 +1,7 @@
 package com.truekenyan.cocktail.ui.fragments
 
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
@@ -23,6 +24,7 @@ import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.utils.Commons
 import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
@@ -55,12 +57,12 @@ class FragmentHome : Fragment() {
         }
 
         override fun onViewClicked(view: View, item: Any, position: Int) {
-
+            item as CocktailModel
+            val i = Intent(context, CocktailActivity::class.java).apply { putExtra(Commons.DRINK_ID, item.idDrink) }
+            context?.startActivity(i)
         }
 
-        override fun onViewLongClicked(it: View?, item: Any, position: Int) {
-
-        }
+        override fun onViewLongClicked(it: View?, item: Any, position: Int) {}
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -88,23 +90,23 @@ class FragmentHome : Fragment() {
         val randomItem = menu?.findItem(R.id.random)
         val ascItem = menu?.findItem(R.id.ascending)
         val descItem = menu?.findItem(R.id.descending)
-        when (prefManager!!.getOrder()) {
-            Commons.RANDOM -> randomItem!!.isChecked = true
-            Commons.ASCENDING -> ascItem!!.isChecked = true
-            Commons.DESCENDING -> descItem!!.isChecked = true
+        when (prefManager?.getOrder()) {
+            Commons.RANDOM -> randomItem?.isChecked = true
+            Commons.ASCENDING -> ascItem?.isChecked = true
+            Commons.DESCENDING -> descItem?.isChecked = true
         }
 
         val alcoholic = menu?.findItem(R.id.alcoholic)
         val nonAlcoholic = menu?.findItem(R.id.non_alcoholic)
-        when (prefManager!!.isAlcoholic()) {
-            true -> alcoholic!!.isChecked = true
-            else -> nonAlcoholic!!.isChecked = true
+        when (prefManager?.isAlcoholic()) {
+            true -> alcoholic?.isChecked = true
+            else -> nonAlcoholic?.isChecked = true
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater!!.inflate(R.menu.home_options, menu)
+        inflater?.inflate(R.menu.home_options, menu)
     }
 
     override fun onOptionsItemSelected(item: MenuItem?): Boolean {
@@ -130,7 +132,7 @@ class FragmentHome : Fragment() {
                 sortList()
             }
         }
-        activity!!.invalidateOptionsMenu()
+        activity?.invalidateOptionsMenu()
         return super.onOptionsItemSelected(item)
     }
 
@@ -164,7 +166,8 @@ class FragmentHome : Fragment() {
                     Log.e("FETCHING", it.message)
                 })
 
-        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) requestQueue!!.add(jsonObjectRequest)
+        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!))
+            requestQueue!!.add(jsonObjectRequest)
         else Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
                 .setAction("DISMISS") {}
                 .show()
@@ -182,9 +185,9 @@ class FragmentHome : Fragment() {
     }
 
     private fun sortList() {
-        when {
-            prefManager!!.getOrder() == Commons.ASCENDING -> cocktails.sortBy { it.strDrink }
-            prefManager!!.getOrder() == Commons.DESCENDING -> cocktails.sortByDescending { it.strDrink }
+        when (prefManager?.getOrder()) {
+            Commons.ASCENDING -> cocktails.sortBy { it.strDrink }
+            Commons.DESCENDING -> cocktails.sortByDescending { it.strDrink }
             else -> cocktails = cocktails.shuffled() as MutableList<CocktailModel>
         }
         cocktailAdapter.run { addManyItems(cocktails as MutableList<Any>) }

@@ -31,6 +31,8 @@ import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.activity_cock_tail.*
 import kotlinx.android.synthetic.main.item_home_list.view.*
 import kotlinx.android.synthetic.main.item_ingredients.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 import org.json.JSONObject
 import java.util.*
 
@@ -56,7 +58,7 @@ class CocktailActivity : AppCompatActivity() {
         override fun bindView(view: View, item: Any, position: Int) {
             item as Ingredient
             val name = view.ingredient
-            val i = (item.measure)!!.trim() + " "+ item.name
+            val i = (item.measure)!!.trim() + " " + item.name
             name.text = i
         }
 
@@ -109,7 +111,7 @@ class CocktailActivity : AppCompatActivity() {
         requestQueue = Volley.newRequestQueue(this@CocktailActivity)
         getDetails(fullURL)
 
-        ingredientsAdapter = SimpleAdapter( R.layout.item_ingredients, ingredientsCallback)
+        ingredientsAdapter = SimpleAdapter(R.layout.item_ingredients, ingredientsCallback)
         cocktailAdapter = SimpleAdapter(R.layout.item_home_list, suggestedCallback)
         ingredientsRecycler.apply {
             adapter = ingredientsAdapter
@@ -121,11 +123,11 @@ class CocktailActivity : AppCompatActivity() {
             adapter = cocktailAdapter
             hasFixedSize()
             itemAnimator = DefaultItemAnimator()
-            layoutManager = GridLayoutManager(context,1, GridLayoutManager.HORIZONTAL, false)
+            layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         }
 
         favoriteImage!!.setOnClickListener {
-            if (isFavorite!!){
+            if (isFavorite!!) {
                 isFavorite = false
                 val f: Fav = (favoritesDao!!.getOne(cockTail!!.strDrink))[0]!!
                 favoriteImage!!.setImageResource(R.drawable.ic_favorite)
@@ -136,15 +138,15 @@ class CocktailActivity : AppCompatActivity() {
                     drinkId = drinkId!!.toString(),
                     drinkName = cockTail!!.strDrink,
                     drinkPhoto = cockTail!!.strDrinkThumb)
-            favoritesDao!!.addToFavs(fav)
+            GlobalScope.launch { favoritesDao!!.addToFavs(fav) }
             favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
             isFavorite = true
         }
 
-        favorites = favoritesDao!!.getFavs() as MutableList<Any>
+        GlobalScope.launch { favorites = favoritesDao!!.getFavs() as MutableList<Any> }
     }
 
-    private fun initViews(){
+    private fun initViews() {
         cocktailImage = findViewById(R.id.cocktail_image)
         methodText = findViewById(R.id.method)
         ingredientsRecycler = findViewById(R.id.ingredients_recycler)
@@ -166,11 +168,8 @@ class CocktailActivity : AppCompatActivity() {
                         val measure = drinkObject.get("strMeasure$i") as String?
 
                         if (!ingredient.equals("")) {
-                            if (measure.equals("")) {
-                                ingredients.add(Ingredient(ingredient, ""))
-                            } else {
-                                ingredients.add(Ingredient(ingredient, measure))
-                            }
+                            if (measure.equals("")) ingredients.add(Ingredient(ingredient, ""))
+                            else ingredients.add(Ingredient(ingredient, measure))
                         }
                     }
 
@@ -184,9 +183,9 @@ class CocktailActivity : AppCompatActivity() {
                     collapsing_toolbar.title = cockTail!!.strDrink
                     favoriteImage!!.isEnabled = true
                     tag.text = cockTail!!.strAlcoholic
-                    for (fav in favorites){
+                    for (fav in favorites) {
                         fav as Fav
-                        if (fav.drinkId == (cockTail!!.idDrink)){
+                        if (fav.drinkId == (cockTail!!.idDrink)) {
                             favoriteImage!!.setImageResource(R.drawable.ic_favorite_selected)
                             isFavorite = true
                             break
@@ -203,15 +202,13 @@ class CocktailActivity : AppCompatActivity() {
         requestQueue!!.add(jsonObjectRequest)
     }
 
-    private fun getMore(currentId: String?, list: ArrayList<CocktailModel>){
+    private fun getMore(currentId: String?, list: ArrayList<CocktailModel>) {
         val newList = mutableListOf<Any>()
         for (i in 1..list.size) {
             for (item in list) {
-                if (item.idDrink != currentId) {
-                    newList.add(item)
-                }
+                if (item.idDrink != currentId) newList.add(item)
             }
         }
-        cocktailAdapter.changeItems(newList)
+        cocktailAdapter.run { changeItems(newList) }
     }
 }
