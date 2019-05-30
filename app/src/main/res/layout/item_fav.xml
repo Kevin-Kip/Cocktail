@@ -30,18 +30,6 @@
         android:textStyle="bold"
         android:alpha="0.8"/>
 
-    <ImageButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="?attr/selectableItemBackground"
-        android:padding="@dimen/dimen_10dp"
-        android:src="@drawable/ic_delete"
-        android:id="@+id/remove"
-        android:contentDescription="@string/app_name"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
-
     <View
         android:layout_width="@dimen/dimen_0dp"
         android:layout_height="@dimen/dimen_1dp"

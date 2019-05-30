@@ -4,7 +4,7 @@
     <item android:id="@+id/alcohol"
         android:title="@string/drink_type"
         android:icon="@drawable/ic_sort"
-        app:showAsAction="never">
+        app:showAsAction="ifRoom">
         <menu>
             <group android:id="@+id/drink_type"
                 android:checkableBehavior="single">

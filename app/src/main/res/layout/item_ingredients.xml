@@ -16,6 +16,6 @@
         android:layout_margin="@dimen/dimen_3dp"
         android:drawableStart="@drawable/ic_success"
         android:drawableLeft="@drawable/ic_success"
-        android:drawablePadding="@dimen/dimen_5dp"/>
+        android:drawablePadding="@dimen/dimen_10dp"/>
 
 </LinearLayout>
