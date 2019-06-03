@@ -3,19 +3,14 @@ package com.truekenyan.cocktail.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.design.widget.Snackbar
 import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
-import com.android.volley.Request
 import com.android.volley.RequestQueue
-import com.android.volley.Response
-import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
 import com.revosleap.simpleadapter.SimpleAdapter
@@ -24,17 +19,20 @@ import com.squareup.picasso.Picasso
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.models.CocktailModel
+import com.truekenyan.cocktail.request.APIClient
+import com.truekenyan.cocktail.request.APIService
 import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.utils.Commons
-import com.truekenyan.cocktail.utils.NetManager
 import com.truekenyan.cocktail.utils.PrefManager
-import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.item_home_list.view.*
 import org.json.JSONArray
 import org.json.JSONObject
+import retrofit2.Call
+import retrofit2.Callback
 
 class FragmentHome : Fragment() {
 
+    private var apiService: APIService? = null
     private lateinit var progressBar: ProgressBar
     private lateinit var homeList: RecyclerView
     private lateinit var cocktailAdapter: SimpleAdapter
@@ -72,6 +70,8 @@ class FragmentHome : Fragment() {
         cocktailAdapter = SimpleAdapter(R.layout.item_home_list, simpleCallbacks)
         requestQueue = Volley.newRequestQueue(context)
         prefManager = PrefManager(context!!.applicationContext)
+
+        apiService = APIClient.getAPIService()
 
         setHasOptionsMenu(true)
         fetchDrinks()
@@ -149,28 +149,27 @@ class FragmentHome : Fragment() {
     }
 
     private fun fetchDrinks() {
-        val drinkUrl: String? = if (prefManager!!.isAlcoholic()) Commons.URL_ALCOHOLIC else Commons.URL_NON_ALCOHOLIC
+        val request: Call<JSONObject> = if (prefManager!!.isAlcoholic())
+            apiService?.getAlcoholic()!!
+        else apiService?.getAlcoholic()!!
+
+//        val drinkUrl: String? = if (prefManager!!.isAlcoholic()) Commons.URL_ALCOHOLIC else Commons.URL_NON_ALCOHOLIC
         progressBar.visibility = View.VISIBLE
         homeList.visibility = View.GONE
         cocktails.clear()
         getTitle()
 
-        val jsonObjectRequest = JsonObjectRequest(Request.Method.GET, drinkUrl, JSONObject(),
-                Response.Listener { response ->
-                    progressBar.visibility = View.GONE
-                    homeList.visibility = View.VISIBLE
-                    parseJson(response.toString())
-                },
-                Response.ErrorListener {
-                    Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
-                    Log.e("FETCHING", it.message)
-                })
+        request.enqueue(object : Callback<JSONObject> {
+            override fun onResponse(call: Call<JSONObject>, response: retrofit2.Response<JSONObject>) {
+                progressBar.visibility = View.GONE
+                homeList.visibility = View.VISIBLE
+                parseJson(response.toString())
+            }
 
-        if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!))
-            requestQueue!!.add(jsonObjectRequest)
-        else Snackbar.make(container, "Network connection is slow", Snackbar.LENGTH_INDEFINITE)
-                .setAction("DISMISS") {}
-                .show()
+            override fun onFailure(call: Call<JSONObject>, t: Throwable) {
+                Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
+            }
+        })
     }
 
     private fun parseJson(result: String?) {
