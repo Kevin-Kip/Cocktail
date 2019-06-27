@@ -2,7 +2,6 @@ package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.IntroAdapter
@@ -13,7 +12,6 @@ class WelcomeActivity : AppCompatActivity() {
 
     private var prefManager: PrefManager? = null
     private val screens = mutableListOf<Int>()
-    private var viewPager: ViewPager? = null
     private var introAdapter: IntroAdapter? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -25,10 +23,8 @@ class WelcomeActivity : AppCompatActivity() {
     private fun init(){
         prefManager = PrefManager(this@WelcomeActivity)
         screens.add(R.layout.intro_screen_one)
-        viewPager = findViewById(R.id.swipe_views)
         introAdapter = IntroAdapter(screens, this@WelcomeActivity)
-        viewPager!!.adapter = introAdapter
-
+        swipe_views!!.adapter = introAdapter
         skip_button.setOnClickListener {
             launchMain()
         }

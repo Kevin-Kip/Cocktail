@@ -152,8 +152,6 @@ class FragmentHome : Fragment() {
         val request: Call<JSONObject> = if (prefManager!!.isAlcoholic())
             apiService?.getAlcoholic()!!
         else apiService?.getAlcoholic()!!
-
-//        val drinkUrl: String? = if (prefManager!!.isAlcoholic()) Commons.URL_ALCOHOLIC else Commons.URL_NON_ALCOHOLIC
         progressBar.visibility = View.VISIBLE
         homeList.visibility = View.GONE
         cocktails.clear()
