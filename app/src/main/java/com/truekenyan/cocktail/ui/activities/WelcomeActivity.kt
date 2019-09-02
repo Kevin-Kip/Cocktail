@@ -2,6 +2,7 @@ package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
+import android.support.v4.view.ViewPager
 import android.support.v7.app.AppCompatActivity
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.IntroAdapter
@@ -23,11 +24,23 @@ class WelcomeActivity : AppCompatActivity() {
     private fun init(){
         prefManager = PrefManager(this@WelcomeActivity)
         screens.add(R.layout.intro_screen_one)
+        screens.add(R.layout.intro_screen_two)
+        screens.add(R.layout.intro_screen_three)
         introAdapter = IntroAdapter(screens, this@WelcomeActivity)
         swipe_views!!.adapter = introAdapter
+        indicator.setViewPager(swipe_views)
         skip_button.setOnClickListener {
             launchMain()
         }
+        swipe_views.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+            override fun onPageScrollStateChanged(p0: Int) {}
+
+            override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}
+
+            override fun onPageSelected(p0: Int) {
+
+            }
+        })
     }
 
     private fun launchMain(){
