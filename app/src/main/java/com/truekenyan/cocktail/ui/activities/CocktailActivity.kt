@@ -2,16 +2,15 @@ package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
@@ -46,8 +45,8 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var cocktailAdapter: SimpleAdapter
     private lateinit var cocktailImage: ImageView
     private lateinit var methodText: TextView
-    private lateinit var ingredientsRecycler: androidx.recyclerview.widget.RecyclerView
-    private lateinit var moreRecyclerView: androidx.recyclerview.widget.RecyclerView
+    private lateinit var ingredientsRecycler: RecyclerView
+    private lateinit var moreRecyclerView: RecyclerView
     private var requestQueue: RequestQueue? = null
     private var favoriteImage: ImageView? = null
     private var favorites = mutableListOf<Any>()
@@ -102,7 +101,7 @@ class CocktailActivity : AppCompatActivity() {
         initViews()
 
         i = intent
-        drinkId = (i!!.getStringExtra(Commons.DRINK_ID)).toInt()
+        drinkId = (i!!.getStringExtra(Commons.DRINK_ID)!!).toInt()
         val fullURL: String = Commons.COCKTAIL + drinkId
 
         favoritesDb = AppDatabase.getInstance(context = applicationContext)
@@ -122,8 +121,8 @@ class CocktailActivity : AppCompatActivity() {
         moreRecyclerView.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
-            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 1, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
+            itemAnimator = DefaultItemAnimator()
+            layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
         }
 
         favoriteImage!!.setOnClickListener {
@@ -196,12 +195,12 @@ class CocktailActivity : AppCompatActivity() {
                         }
                     }
                     if (i!!.hasExtra(Commons.COCKTAILS)) {
-                        getMore(drinkId.toString(), i!!.getParcelableArrayListExtra(Commons.COCKTAILS))
+                        getMore(drinkId.toString(), i!!.getParcelableArrayListExtra(Commons.COCKTAILS)!!)
                     }
                 },
                 Response.ErrorListener {
                     Toast.makeText(applicationContext, "Unable to fetch cocktail", Toast.LENGTH_SHORT).show()
-                    Log.d("UNABLE TO FETCH", it.message)
+                    Log.d("UNABLE TO FETCH", it.message!!)
                 })
         requestQueue!!.add(jsonObjectRequest)
     }

@@ -3,12 +3,12 @@ package com.truekenyan.cocktail.ui.activities
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import com.google.android.material.bottomnavigation.BottomNavigationView
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AppCompatActivity
-import androidx.appcompat.widget.Toolbar
 import android.widget.LinearLayout
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
+import androidx.fragment.app.Fragment
+import com.google.android.material.bottomnavigation.BottomNavigationView
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.callbacks.Callbacks
 import com.truekenyan.cocktail.ui.fragments.FragmentFavorite
@@ -23,10 +23,10 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private lateinit var linearLayout: LinearLayout
     private var currentFragment: String? = null
 
-    private var homeFragment: androidx.fragment.app.Fragment? = null
-    private var searchFragment: androidx.fragment.app.Fragment? = null
-    private var favoritesFragment: androidx.fragment.app.Fragment? = null
-    private var infoFragment: androidx.fragment.app.Fragment? = null
+    private var homeFragment:Fragment? = null
+    private var searchFragment: Fragment? = null
+    private var favoritesFragment: Fragment? = null
+    private var infoFragment: Fragment? = null
     private var doubleBackToExitPressedOnce = false
     private var toolbar: Toolbar? = null
 
@@ -50,25 +50,33 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private val mOnNavigationItemSelectedListener = BottomNavigationView.OnNavigationItemSelectedListener { item ->
         when (item.itemId) {
             R.id.navigation_home -> {
-                if (currentFragment == Commons.HOME){return@OnNavigationItemSelectedListener true}
+                if (currentFragment == Commons.HOME) {
+                    return@OnNavigationItemSelectedListener true
+                }
                 changeFragment(homeFragment!!, Commons.COCKTAILS)
                 currentFragment = Commons.HOME
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_search -> {
-                if (currentFragment == Commons.SEARCH){return@OnNavigationItemSelectedListener true}
+                if (currentFragment == Commons.SEARCH) {
+                    return@OnNavigationItemSelectedListener true
+                }
                 changeFragment(searchFragment!!, Commons.SEARCH)
                 currentFragment = Commons.SEARCH
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_favorites -> {
-                if (currentFragment == Commons.FAVORITES){return@OnNavigationItemSelectedListener true}
+                if (currentFragment == Commons.FAVORITES) {
+                    return@OnNavigationItemSelectedListener true
+                }
                 changeFragment(favoritesFragment!!, Commons.FAVORITES)
                 currentFragment = Commons.FAVORITES
                 return@OnNavigationItemSelectedListener true
             }
             R.id.navigation_info -> {
-                if (currentFragment == Commons.INFO){return@OnNavigationItemSelectedListener true}
+                if (currentFragment == Commons.INFO) {
+                    return@OnNavigationItemSelectedListener true
+                }
                 changeFragment(infoFragment!!, Commons.INFO)
                 currentFragment = Commons.INFO
                 return@OnNavigationItemSelectedListener true
@@ -81,7 +89,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
         }
     }
 
-    private fun changeFragment(fragment: androidx.fragment.app.Fragment, name: String?){
+    private fun changeFragment(fragment: Fragment, name: String?) {
         val manager = supportFragmentManager
         manager.popBackStack()
         manager.beginTransaction()

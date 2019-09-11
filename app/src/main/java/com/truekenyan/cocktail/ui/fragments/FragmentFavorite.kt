@@ -2,12 +2,9 @@ package com.truekenyan.cocktail.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.Toast
+import androidx.recyclerview.widget.RecyclerView
 import com.revosleap.simpleadapter.SimpleAdapter
 import com.revosleap.simpleadapter.SimpleCallbacks
 import com.squareup.picasso.Picasso
@@ -25,7 +22,7 @@ import kotlinx.coroutines.launch
 class FragmentFavorite : androidx.fragment.app.Fragment(), Callbacks {
 
     private var favsList = mutableListOf<Any>()
-    private var favs: androidx.recyclerview.widget.RecyclerView? = null
+    private var favs: RecyclerView? = null
     private var favsAdapter: SimpleAdapter? = null
     private var favoritesDb: AppDatabase? = null
     private var favoritesDao: CocktailDao? = null
@@ -80,19 +77,19 @@ class FragmentFavorite : androidx.fragment.app.Fragment(), Callbacks {
         return rootView
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val clearItem: MenuItem? = menu!!.findItem(R.id.clear_favorites)
+        val clearItem: MenuItem? = menu.findItem(R.id.clear_favorites)
         if (favsList.isEmpty()) clearItem!!.isVisible = false
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater!!.inflate(R.menu.favorite_options, menu)
+        inflater.inflate(R.menu.favorite_options, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.clear_favorites -> {
                 favoritesDao!!.clearFavorites()
                 return true

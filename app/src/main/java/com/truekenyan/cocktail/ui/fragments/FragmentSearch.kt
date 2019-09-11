@@ -1,11 +1,6 @@
 package com.truekenyan.cocktail.ui.fragments
 
 import android.os.Bundle
-import com.google.android.material.snackbar.Snackbar
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -14,11 +9,16 @@ import android.widget.EditText
 import android.widget.ImageButton
 import android.widget.ProgressBar
 import android.widget.TextView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.Request
 import com.android.volley.RequestQueue
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.Volley
+import com.google.android.material.snackbar.Snackbar
 import com.google.gson.Gson
 import com.revosleap.simpleadapter.SimpleAdapter
 import com.revosleap.simpleadapter.SimpleCallbacks
@@ -31,9 +31,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class FragmentSearch : androidx.fragment.app.Fragment() {
+class FragmentSearch : Fragment() {
 
-    private var searchList: androidx.recyclerview.widget.RecyclerView? = null
+    private var searchList: RecyclerView? = null
     private var searchInput: EditText? = null
     private var clearButton: ImageButton? = null
     private var searchButton: ImageButton? = null
@@ -71,8 +71,8 @@ class FragmentSearch : androidx.fragment.app.Fragment() {
         searchList!!.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
-            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            layoutManager = GridLayoutManager(context, 3)
+            itemAnimator = DefaultItemAnimator()
         }
         return rootView
     }
@@ -102,23 +102,23 @@ class FragmentSearch : androidx.fragment.app.Fragment() {
         }
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val menuIngredient = menu?.findItem(R.id.search_ingredient)
-        val menuName = menu?.findItem(R.id.search_name)
+        val menuIngredient = menu.findItem(R.id.search_ingredient)
+        val menuName = menu.findItem(R.id.search_name)
         when {
             prefManager!!.searchByName() -> menuName!!.isChecked = true
             else -> menuIngredient!!.isChecked = true
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater!!.inflate(R.menu.search_options, menu)
+        inflater.inflate(R.menu.search_options, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId){
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId){
             R.id.search_ingredient -> {
                 if (prefManager!!.searchByName()) {
                     prefManager!!.setSearchByName(false)
@@ -193,7 +193,7 @@ class FragmentSearch : androidx.fragment.app.Fragment() {
                     progressBar!!.visibility = View.GONE
                     noResults!!.visibility = View.VISIBLE
                     searchList!!.visibility = View.GONE
-                    Log.e("FETCHING", it!!.message)
+                    Log.e("FETCHING", it!!.message!!)
                 })
 
         if (NetManager.isConnected(context!!) && NetManager.isConnectedFast(context!!)) {

@@ -3,14 +3,14 @@ package com.truekenyan.cocktail.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.recyclerview.widget.DefaultItemAnimator
-import androidx.recyclerview.widget.GridLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.volley.RequestQueue
 import com.android.volley.toolbox.Volley
 import com.google.gson.Gson
@@ -31,11 +31,11 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 
-class FragmentHome : androidx.fragment.app.Fragment() {
+class FragmentHome : Fragment() {
 
     private var apiService: APIService? = null
     private lateinit var progressBar: ProgressBar
-    private lateinit var homeList: androidx.recyclerview.widget.RecyclerView
+    private lateinit var homeList: RecyclerView
     private lateinit var cocktailAdapter: SimpleAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
@@ -80,38 +80,38 @@ class FragmentHome : androidx.fragment.app.Fragment() {
         homeList.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
-            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            layoutManager = GridLayoutManager(context, 3)
+            itemAnimator = DefaultItemAnimator()
         }
         return rootView
     }
 
-    override fun onPrepareOptionsMenu(menu: Menu?) {
+    override fun onPrepareOptionsMenu(menu: Menu) {
         super.onPrepareOptionsMenu(menu)
-        val randomItem = menu?.findItem(R.id.random)
-        val ascItem = menu?.findItem(R.id.ascending)
-        val descItem = menu?.findItem(R.id.descending)
+        val randomItem = menu.findItem(R.id.random)
+        val ascItem = menu.findItem(R.id.ascending)
+        val descItem = menu.findItem(R.id.descending)
         when (prefManager?.getOrder()) {
             Commons.RANDOM -> randomItem?.isChecked = true
             Commons.ASCENDING -> ascItem?.isChecked = true
             Commons.DESCENDING -> descItem?.isChecked = true
         }
 
-        val alcoholic = menu?.findItem(R.id.alcoholic)
-        val nonAlcoholic = menu?.findItem(R.id.non_alcoholic)
+        val alcoholic = menu.findItem(R.id.alcoholic)
+        val nonAlcoholic = menu.findItem(R.id.non_alcoholic)
         when (prefManager?.isAlcoholic()) {
             true -> alcoholic?.isChecked = true
             else -> nonAlcoholic?.isChecked = true
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu?, inflater: MenuInflater?) {
+    override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
         super.onCreateOptionsMenu(menu, inflater)
-        inflater?.inflate(R.menu.home_options, menu)
+        inflater.inflate(R.menu.home_options, menu)
     }
 
-    override fun onOptionsItemSelected(item: MenuItem?): Boolean {
-        when (item!!.itemId) {
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        when (item.itemId) {
             R.id.alcoholic -> {
                 prefManager!!.setAlcoholic(true)
                 fetchDrinks()
@@ -137,7 +137,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
         return super.onOptionsItemSelected(item)
     }
 
-    override fun onAttach(context: Context?) {
+    override fun onAttach(context: Context) {
         super.onAttach(context)
         listener = context as Callbacks
     }
@@ -167,7 +167,7 @@ class FragmentHome : androidx.fragment.app.Fragment() {
             }
 
             override fun onFailure(call: Call<Any>, t: Throwable) {
-                Log.e("ERROR", t.message)
+                Log.e("ERROR", t.message!!)
                 Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
             }
         })

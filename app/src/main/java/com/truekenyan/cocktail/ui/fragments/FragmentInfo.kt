@@ -5,16 +5,16 @@ import android.content.Intent.ACTION_SEND
 import android.content.Intent.createChooser
 import android.net.Uri
 import android.os.Bundle
-import androidx.fragment.app.Fragment
-import androidx.appcompat.app.AlertDialog
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
+import androidx.fragment.app.Fragment
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.fragment_info.*
 
-class FragmentInfo : androidx.fragment.app.Fragment() {
+class FragmentInfo : Fragment() {
 
     enum class Action {
         ABOUT, SHARE, CONTACT
