@@ -11,7 +11,7 @@ class PrefManager(context: Context) {
         editor.apply { putBoolean(Commons.HAS_LAUNCHED, hasLaunched) }.apply { apply() }
     }
 
-    fun hasLaunched(): Boolean = sharedPref.getBoolean(Commons.HAS_LAUNCHED, true)
+    fun hasLaunched(): Boolean = sharedPref.getBoolean(Commons.HAS_LAUNCHED, false)
 
     fun setAlcoholic(isAlcoholic: Boolean) {
         editor.apply { putBoolean(Commons.ALCOHOLIC, isAlcoholic) }.apply { apply() }

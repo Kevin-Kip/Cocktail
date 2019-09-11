@@ -1,7 +1,7 @@
 package com.truekenyan.cocktail.models
 
-import android.arch.persistence.room.Entity
-import android.arch.persistence.room.PrimaryKey
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import com.truekenyan.cocktail.utils.Commons
 
 @Entity(tableName = Commons.DRINKS)

@@ -3,10 +3,10 @@ package com.truekenyan.cocktail.ui.fragments
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
@@ -31,11 +31,11 @@ import org.json.JSONObject
 import retrofit2.Call
 import retrofit2.Callback
 
-class FragmentHome : Fragment() {
+class FragmentHome : androidx.fragment.app.Fragment() {
 
     private var apiService: APIService? = null
     private lateinit var progressBar: ProgressBar
-    private lateinit var homeList: RecyclerView
+    private lateinit var homeList: androidx.recyclerview.widget.RecyclerView
     private lateinit var cocktailAdapter: SimpleAdapter
     private var cocktails = mutableListOf<CocktailModel>()
     private var requestQueue: RequestQueue? = null
@@ -80,8 +80,8 @@ class FragmentHome : Fragment() {
         homeList.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            layoutManager = GridLayoutManager(context, 3)
-            itemAnimator = DefaultItemAnimator()
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 3)
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         }
         return rootView
     }

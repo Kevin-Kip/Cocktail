@@ -2,10 +2,10 @@ package com.truekenyan.cocktail.ui.fragments
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.view.*
 import android.widget.Toast
 import com.revosleap.simpleadapter.SimpleAdapter
@@ -22,10 +22,10 @@ import kotlinx.android.synthetic.main.item_fav.view.*
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
 
-class FragmentFavorite : Fragment(), Callbacks {
+class FragmentFavorite : androidx.fragment.app.Fragment(), Callbacks {
 
     private var favsList = mutableListOf<Any>()
-    private var favs: RecyclerView? = null
+    private var favs: androidx.recyclerview.widget.RecyclerView? = null
     private var favsAdapter: SimpleAdapter? = null
     private var favoritesDb: AppDatabase? = null
     private var favoritesDao: CocktailDao? = null
@@ -73,8 +73,8 @@ class FragmentFavorite : Fragment(), Callbacks {
         favs!!.apply {
             adapter = favsAdapter
             hasFixedSize()
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = LinearLayoutManager(context)
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(context)
         }
         favsAdapter!!.changeItems(favsList)
         return rootView

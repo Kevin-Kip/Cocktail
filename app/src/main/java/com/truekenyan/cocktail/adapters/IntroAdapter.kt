@@ -1,12 +1,12 @@
 package com.truekenyan.cocktail.adapters
 
 import android.content.Context
-import android.support.v4.view.PagerAdapter
+import androidx.viewpager.widget.PagerAdapter
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 
-class IntroAdapter(private val screens: MutableList<Int>, private val context: Context) : PagerAdapter() {
+class IntroAdapter(private val screens: MutableList<Int>, private val context: Context) : androidx.viewpager.widget.PagerAdapter() {
 
     override fun instantiateItem(container: ViewGroup, position: Int): Any {
         val view = LayoutInflater.from(context).inflate(screens[position], container, false)

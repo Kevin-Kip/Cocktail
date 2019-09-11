@@ -2,11 +2,11 @@ package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.LinearLayoutManager
-import android.support.v7.widget.RecyclerView
+import androidx.appcompat.app.AppCompatActivity
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.util.Log
 import android.view.View
 import android.widget.ImageView
@@ -46,8 +46,8 @@ class CocktailActivity : AppCompatActivity() {
     private lateinit var cocktailAdapter: SimpleAdapter
     private lateinit var cocktailImage: ImageView
     private lateinit var methodText: TextView
-    private lateinit var ingredientsRecycler: RecyclerView
-    private lateinit var moreRecyclerView: RecyclerView
+    private lateinit var ingredientsRecycler: androidx.recyclerview.widget.RecyclerView
+    private lateinit var moreRecyclerView: androidx.recyclerview.widget.RecyclerView
     private var requestQueue: RequestQueue? = null
     private var favoriteImage: ImageView? = null
     private var favorites = mutableListOf<Any>()
@@ -116,14 +116,14 @@ class CocktailActivity : AppCompatActivity() {
         ingredientsRecycler.apply {
             adapter = ingredientsAdapter
             hasFixedSize()
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = LinearLayoutManager(this@CocktailActivity)
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            layoutManager = androidx.recyclerview.widget.LinearLayoutManager(this@CocktailActivity)
         }
         moreRecyclerView.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            itemAnimator = DefaultItemAnimator()
-            layoutManager = GridLayoutManager(context, 1, GridLayoutManager.HORIZONTAL, false)
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 1, androidx.recyclerview.widget.GridLayoutManager.HORIZONTAL, false)
         }
 
         favoriteImage!!.setOnClickListener {

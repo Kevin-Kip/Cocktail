@@ -1,11 +1,11 @@
 package com.truekenyan.cocktail.ui.fragments
 
 import android.os.Bundle
-import android.support.design.widget.Snackbar
-import android.support.v4.app.Fragment
-import android.support.v7.widget.DefaultItemAnimator
-import android.support.v7.widget.GridLayoutManager
-import android.support.v7.widget.RecyclerView
+import com.google.android.material.snackbar.Snackbar
+import androidx.fragment.app.Fragment
+import androidx.recyclerview.widget.DefaultItemAnimator
+import androidx.recyclerview.widget.GridLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
@@ -31,9 +31,9 @@ import kotlinx.android.synthetic.main.activity_main.*
 import org.json.JSONArray
 import org.json.JSONObject
 
-class FragmentSearch : Fragment() {
+class FragmentSearch : androidx.fragment.app.Fragment() {
 
-    private var searchList: RecyclerView? = null
+    private var searchList: androidx.recyclerview.widget.RecyclerView? = null
     private var searchInput: EditText? = null
     private var clearButton: ImageButton? = null
     private var searchButton: ImageButton? = null
@@ -71,8 +71,8 @@ class FragmentSearch : Fragment() {
         searchList!!.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            layoutManager = GridLayoutManager(context, 2)
-            itemAnimator = DefaultItemAnimator()
+            layoutManager = androidx.recyclerview.widget.GridLayoutManager(context, 2)
+            itemAnimator = androidx.recyclerview.widget.DefaultItemAnimator()
         }
         return rootView
     }

@@ -3,10 +3,10 @@ package com.truekenyan.cocktail.ui.activities
 import android.os.Build
 import android.os.Bundle
 import android.os.Handler
-import android.support.design.widget.BottomNavigationView
-import android.support.v4.app.Fragment
-import android.support.v7.app.AppCompatActivity
-import android.support.v7.widget.Toolbar
+import com.google.android.material.bottomnavigation.BottomNavigationView
+import androidx.fragment.app.Fragment
+import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.Toolbar
 import android.widget.LinearLayout
 import android.widget.Toast
 import com.truekenyan.cocktail.R
@@ -23,10 +23,10 @@ class MainActivity : AppCompatActivity(), Callbacks {
     private lateinit var linearLayout: LinearLayout
     private var currentFragment: String? = null
 
-    private var homeFragment: Fragment? = null
-    private var searchFragment: Fragment? = null
-    private var favoritesFragment: Fragment? = null
-    private var infoFragment: Fragment? = null
+    private var homeFragment: androidx.fragment.app.Fragment? = null
+    private var searchFragment: androidx.fragment.app.Fragment? = null
+    private var favoritesFragment: androidx.fragment.app.Fragment? = null
+    private var infoFragment: androidx.fragment.app.Fragment? = null
     private var doubleBackToExitPressedOnce = false
     private var toolbar: Toolbar? = null
 
@@ -81,7 +81,7 @@ class MainActivity : AppCompatActivity(), Callbacks {
         }
     }
 
-    private fun changeFragment(fragment: Fragment, name: String?){
+    private fun changeFragment(fragment: androidx.fragment.app.Fragment, name: String?){
         val manager = supportFragmentManager
         manager.popBackStack()
         manager.beginTransaction()

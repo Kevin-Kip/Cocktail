@@ -2,8 +2,8 @@ package com.truekenyan.cocktail.ui.activities
 
 import android.content.Intent
 import android.os.Bundle
-import android.support.v4.view.ViewPager
-import android.support.v7.app.AppCompatActivity
+import androidx.viewpager.widget.ViewPager
+import androidx.appcompat.app.AppCompatActivity
 import com.truekenyan.cocktail.R
 import com.truekenyan.cocktail.adapters.IntroAdapter
 import com.truekenyan.cocktail.utils.PrefManager
@@ -32,7 +32,7 @@ class WelcomeActivity : AppCompatActivity() {
         skip_button.setOnClickListener {
             launchMain()
         }
-        swipe_views.addOnPageChangeListener(object : ViewPager.OnPageChangeListener{
+        swipe_views.addOnPageChangeListener(object : androidx.viewpager.widget.ViewPager.OnPageChangeListener{
             override fun onPageScrollStateChanged(p0: Int) {}
 
             override fun onPageScrolled(p0: Int, p1: Float, p2: Int) {}

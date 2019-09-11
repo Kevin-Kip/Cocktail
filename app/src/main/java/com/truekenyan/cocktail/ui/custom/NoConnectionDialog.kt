@@ -1,7 +1,7 @@
 package com.truekenyan.cocktail.ui.custom
 
-import android.support.v7.app.AlertDialog
-import android.support.v7.app.AppCompatActivity
+import androidx.appcompat.app.AlertDialog
+import androidx.appcompat.app.AppCompatActivity
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import com.truekenyan.cocktail.R
