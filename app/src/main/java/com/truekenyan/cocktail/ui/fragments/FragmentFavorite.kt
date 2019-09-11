@@ -19,6 +19,8 @@ import com.truekenyan.cocktail.models.Fav
 import com.truekenyan.cocktail.ui.activities.CocktailActivity
 import com.truekenyan.cocktail.utils.Commons
 import kotlinx.android.synthetic.main.item_fav.view.*
+import kotlinx.coroutines.GlobalScope
+import kotlinx.coroutines.launch
 
 class FragmentFavorite : Fragment(), Callbacks {
 
@@ -40,7 +42,7 @@ class FragmentFavorite : Fragment(), Callbacks {
                     .into(drinkImage)
             drinkName.text = item.drinkName
 
-            (view.remove).setOnClickListener(removeItem(item))
+//            (view.remove).setOnClickListener(removeItem(item))
         }
 
         override fun onViewClicked(view: View, item: Any, position: Int) {
@@ -110,8 +112,10 @@ class FragmentFavorite : Fragment(), Callbacks {
     override fun onTitleFound(name: String?) {}
 
     private fun refreshFavs() {
-        favoritesDao = favoritesDb!!.coctailDao()
-        favsList = favoritesDao!!.getFavs() as MutableList<Any>
+        GlobalScope.launch {
+            favoritesDao = favoritesDb!!.coctailDao()
+            favsList = favoritesDao!!.getFavs() as MutableList<Any>
+        }
         favsAdapter!!.changeItems(favsList)
     }
 }

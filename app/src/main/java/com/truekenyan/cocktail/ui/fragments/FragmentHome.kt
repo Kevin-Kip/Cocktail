@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment
 import android.support.v7.widget.DefaultItemAnimator
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.*
 import android.widget.ProgressBar
 import android.widget.Toast
@@ -79,7 +80,7 @@ class FragmentHome : Fragment() {
         homeList.apply {
             adapter = cocktailAdapter
             hasFixedSize()
-            layoutManager = GridLayoutManager(context, 2)
+            layoutManager = GridLayoutManager(context, 3)
             itemAnimator = DefaultItemAnimator()
         }
         return rootView
@@ -149,29 +150,32 @@ class FragmentHome : Fragment() {
     }
 
     private fun fetchDrinks() {
-        val request: Call<JSONObject> = if (prefManager!!.isAlcoholic())
+        val request: Call<Any> = if (prefManager!!.isAlcoholic())
             apiService?.getAlcoholic()!!
-        else apiService?.getAlcoholic()!!
+        else apiService?.getNonAlcoholic()!!
         progressBar.visibility = View.VISIBLE
         homeList.visibility = View.GONE
         cocktails.clear()
         getTitle()
 
-        request.enqueue(object : Callback<JSONObject> {
-            override fun onResponse(call: Call<JSONObject>, response: retrofit2.Response<JSONObject>) {
+        request.enqueue(object : Callback<Any> {
+            override fun onResponse(call: Call<Any>, response: retrofit2.Response<Any>) {
                 progressBar.visibility = View.GONE
                 homeList.visibility = View.VISIBLE
-                parseJson(response.toString())
+                val result: Any =response.body()!!
+                parseJson(result)
             }
 
-            override fun onFailure(call: Call<JSONObject>, t: Throwable) {
+            override fun onFailure(call: Call<Any>, t: Throwable) {
+                Log.e("ERROR", t.message)
                 Toast.makeText(context, "Oooops. Unable to fetch drinks", Toast.LENGTH_SHORT).show()
             }
         })
     }
 
-    private fun parseJson(result: String?) {
-        val response = JSONObject(result)
+    private fun parseJson(result: Any?) {
+        val res = Gson().toJson(result)
+        val response = JSONObject(res)
         val jsonArray = response.getJSONArray(Commons.DRINKS) as JSONArray
         for (i in 0 until (jsonArray.length() - 1)) {
             val o = jsonArray[i] as JSONObject
@@ -187,6 +191,6 @@ class FragmentHome : Fragment() {
             Commons.DESCENDING -> cocktails.sortByDescending { it.strDrink }
             else -> cocktails = cocktails.shuffled() as MutableList<CocktailModel>
         }
-        cocktailAdapter.run { addManyItems(cocktails as MutableList<Any>) }
+        cocktailAdapter.changeItems(cocktails as MutableList<Any>)
     }
 }

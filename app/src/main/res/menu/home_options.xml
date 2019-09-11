@@ -4,7 +4,7 @@
     <item android:id="@+id/alcohol"
         android:title="@string/drink_type"
         android:icon="@drawable/ic_sort"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
         <menu>
             <group android:id="@+id/drink_type"
                 android:checkableBehavior="single">
@@ -18,7 +18,7 @@
     <item android:id="@+id/order_by"
         android:title="@string/order"
         android:icon="@drawable/ic_sort_by_name"
-        app:showAsAction="ifRoom">
+        app:showAsAction="never">
         <menu>
             <group android:id="@+id/order"
                 android:checkableBehavior="single">

@@ -129,9 +129,13 @@ class CocktailActivity : AppCompatActivity() {
         favoriteImage!!.setOnClickListener {
             if (isFavorite!!) {
                 isFavorite = false
-                val f: Fav = (favoritesDao!!.getOne(cockTail!!.strDrink))[0]!!
-                favoriteImage!!.setImageResource(R.drawable.ic_favorite)
-                favoritesDao!!.removeFromFavs(f)
+                GlobalScope.launch {
+                    val f: Fav = (favoritesDao!!.getOne(cockTail!!.strDrink))[0]!!
+                    runOnUiThread {
+                        favoriteImage!!.setImageResource(R.drawable.ic_favorite)
+                    }
+                    favoritesDao!!.removeFromFavs(f)
+                }
                 return@setOnClickListener
             }
             val fav = Fav(favId = favorites.size + 1,
