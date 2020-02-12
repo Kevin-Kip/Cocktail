@@ -25,6 +25,7 @@ It is powered [the cocktail db](https://thecocktaildb.com) API which can be acce
 4. Push to the branch:  `git push origin my-feature-branch`  
 5. Submit a pull request   
 >You get it :smiley:   
+
 <h3 id="download"> Download</h3>
   
 Download the app [here](https://github.com/Kevin-Kip/Cocktail/raw/master/apk/Cocktail.apk)  
